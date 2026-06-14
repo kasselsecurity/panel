@@ -3,803 +3,623 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kassel Security · Panel Operativo v1.4</title>
+<title>Kassel Security · Panel Operativo v1.5</title>
 <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ks-orange:    #E8500A;
-  --ks-orange2:   #ff6a26;
-  --ks-glow:      rgba(232,80,10,0.28);
-  --ks-glow2:     rgba(232,80,10,0.10);
-
-  --bg-base:      #060810;
-  --glass-1:      rgba(255,255,255,0.032);
-  --glass-2:      rgba(255,255,255,0.058);
-  --glass-3:      rgba(255,255,255,0.085);
-  --glass-shine:  rgba(255,255,255,0.055);
-  --gb:           rgba(255,255,255,0.075);
-  --gb2:          rgba(255,255,255,0.13);
-
-  /* Blue glow — borde de cada fila */
-  --blue-glow:    rgba(80,160,255,0.18);
-  --blue-glow2:   rgba(80,160,255,0.38);
-  --blue-border:  rgba(80,160,255,0.22);
-  --blue-border2: rgba(80,160,255,0.50);
-
-  --red:     #e05555; --red-g:    rgba(224,85,85,0.22);
-  --amber:   #f0b040; --amber-g:  rgba(240,176,64,0.22);
-  --blue:    #4da8ff; --blue-g:   rgba(77,168,255,0.22);
-  --green:   #3dcf8a; --green-g:  rgba(61,207,138,0.22);
-  --purple:  #a87af5; --purple-g: rgba(168,122,245,0.22);
-  --orange:  #ff7d42; --orange-g: rgba(255,125,66,0.22);
-
-  --text1: #eef0f8;
-  --text2: #8a90b0;
-  --text3: #424870;
-  --text4: #22263a;
-
-  --hdr-h: 68px;
+  --ks-orange:   #E8500A;
+  --ks-glow:     rgba(232,80,10,0.28);
+  --ks-glow2:    rgba(232,80,10,0.10);
+  --bg:          #060810;
+  --g1:          rgba(255,255,255,0.030);
+  --g2:          rgba(255,255,255,0.055);
+  --gb:          rgba(255,255,255,0.07);
+  --gb2:         rgba(255,255,255,0.13);
+  --shine:       rgba(255,255,255,0.05);
+  --bl:          rgba(70,150,255,0.20);
+  --bl2:         rgba(70,150,255,0.42);
+  --blb:         rgba(70,150,255,0.22);
+  --blb2:        rgba(70,150,255,0.52);
+  --t1: #eef0f8; --t2: #8a90b0; --t3: #3a4060; --t4: #1e2235;
+  --red:#e05555; --amb:#f0b040; --blu:#4da8ff; --grn:#3dcf8a; --pur:#a87af5; --org:#ff7d42;
+  --hh: 60px;   /* header height */
+  --fh: 32px;   /* footer height */
+  --sh: 48px;   /* search bar height */
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:var(--bg); color:var(--t1);
+  display:flex; flex-direction:column;
+  -webkit-font-smoothing:antialiased;
 }
 
-* { box-sizing:border-box; margin:0; padding:0; }
-
-html, body {
-  height: 100%;
-  overflow: hidden; /* sin scroll — todo en pantalla */
-}
-
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background: var(--bg-base);
-  color: var(--text1);
-  font-size: 15px;
-  -webkit-font-smoothing: antialiased;
-  display: flex;
-  flex-direction: column;
-}
-
-/* BG layers */
-.bg-grad {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+/* BG */
+.bg-g{position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 90% 55% at 12% 0%,  rgba(232,80,10,0.06) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 70% at 88% 100%, rgba(60,100,255,0.04) 0%, transparent 55%);
-}
-.bg-grid {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(232,80,10,0.055) 0%,transparent 55%),
+    radial-gradient(ellipse 55% 60% at 90% 100%, rgba(50,90,255,0.04) 0%,transparent 55%);}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
   background-image:
-    linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 0%, transparent 100%);
-}
+    linear-gradient(rgba(255,255,255,0.014) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.014) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 0%,transparent 100%);}
 
-::-webkit-scrollbar { width:4px; }
-::-webkit-scrollbar-thumb { background: rgba(232,80,10,0.4); border-radius:4px; }
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-thumb{background:rgba(232,80,10,0.4);border-radius:3px;}
 
 /* ══ HEADER ══ */
-.header {
-  height: var(--hdr-h);
-  flex-shrink: 0;
-  background: rgba(6,8,16,0.88);
-  backdrop-filter: blur(28px) saturate(1.8);
-  border-bottom: 1px solid var(--gb);
-  padding: 0 36px;
-  display: flex; align-items: center; justify-content: space-between;
-  position: relative; z-index: 100; gap: 20px;
+.hdr{
+  height:var(--hh); flex-shrink:0;
+  background:rgba(6,8,16,0.9); backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--gb); padding:0 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:100;gap:16px;
 }
-.header::after {
-  content:''; position:absolute; bottom:0; left:0; right:0; height:1px;
-  background: linear-gradient(90deg, transparent, rgba(232,80,10,0.45), transparent);
-}
-.logo { display:flex; align-items:center; gap:12px; flex-shrink:0; }
-.logo-img { height:42px; width:auto; object-fit:contain; filter:drop-shadow(0 0 8px rgba(232,80,10,0.35)); }
-.logo-sub { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text3); letter-spacing:.12em; margin-top:2px; }
+.hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(232,80,10,0.4),transparent);}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-img{height:36px;width:auto;filter:drop-shadow(0 0 7px rgba(232,80,10,0.35));}
+.logo-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);letter-spacing:.12em;margin-top:1px;}
 
-.mode-tabs {
-  display:flex; background:var(--glass-1);
-  border:1px solid var(--gb); border-radius:9px; padding:3px; gap:3px;
-  backdrop-filter:blur(12px);
-}
-.mode-btn {
-  background:none; border:none; padding:9px 24px; border-radius:7px;
-  cursor:pointer; font-size:13px; font-family:'Segoe UI',sans-serif; font-weight:500;
-  color:var(--text3); transition:all .18s; white-space:nowrap; letter-spacing:.01em;
-}
-.mode-btn:hover { background:var(--glass-2); color:var(--text1); }
-.mode-btn.active {
-  background:var(--ks-orange); color:#fff;
-  box-shadow:0 2px 14px var(--ks-glow), inset 0 1px 0 rgba(255,255,255,0.15);
-}
+.tabs{display:flex;background:var(--g1);border:1px solid var(--gb);border-radius:8px;padding:3px;gap:3px;}
+.tab{background:none;border:none;padding:7px 20px;border-radius:6px;
+  cursor:pointer;font-size:12px;font-family:'Segoe UI',sans-serif;font-weight:500;
+  color:var(--t3);transition:all .17s;white-space:nowrap;}
+.tab:hover{background:var(--g2);color:var(--t1);}
+.tab.active{background:var(--ks-orange);color:#fff;box-shadow:0 2px 12px var(--ks-glow);}
 
-.header-right { display:flex; align-items:center; gap:14px; flex-shrink:0; }
-.fs-btn {
-  background:var(--glass-1); border:1px solid var(--gb); color:var(--text2);
-  padding:8px 14px; border-radius:7px; cursor:pointer;
-  font-family:'Segoe UI',sans-serif; font-size:12px; font-weight:500;
-  display:flex; align-items:center; gap:7px; transition:all .18s; white-space:nowrap;
-  backdrop-filter:blur(12px);
-}
-.fs-btn:hover { border-color:var(--gb2); color:var(--text1); background:var(--glass-2); }
-.fs-btn svg { width:14px; height:14px; }
-.header-clock {
-  font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:500;
-  color:var(--text2); letter-spacing:.1em; min-width:90px; text-align:right;
-}
+.hdr-r{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.fs-btn{background:var(--g1);border:1px solid var(--gb);color:var(--t2);
+  padding:6px 12px;border-radius:6px;cursor:pointer;font-family:'Segoe UI',sans-serif;
+  font-size:11px;font-weight:500;display:flex;align-items:center;gap:6px;
+  transition:all .17s;white-space:nowrap;}
+.fs-btn:hover{border-color:var(--gb2);color:var(--t1);background:var(--g2);}
+.fs-btn svg{width:13px;height:13px;}
+.clock{font-family:'IBM Plex Mono',monospace;font-size:17px;font-weight:500;
+  color:var(--t2);letter-spacing:.1em;min-width:82px;text-align:right;}
 
-/* ══ SEARCH (solo en vista situaciones) ══ */
-.search-bar {
-  flex-shrink: 0;
-  padding: 10px 36px 0;
-  position: relative; z-index: 10;
+/* ══ SEARCH ══ */
+.sbar{
+  height:var(--sh); flex-shrink:0;
+  padding:8px 28px; position:relative; z-index:10;
+  display:flex; align-items:center;
 }
-.search-icon { position:absolute; left:56px; top:50%; transform:translateY(-50%); color:var(--text3); display:flex; align-items:center; }
-.search-input {
-  width:100%; padding:12px 44px 12px 50px;
-  border:1px solid var(--gb); border-radius:10px;
-  background:var(--glass-1); backdrop-filter:blur(16px);
-  color:var(--text1); font-size:14px; font-family:'Segoe UI',sans-serif;
-  outline:none; transition:all .2s;
-  box-shadow: inset 0 1px 0 var(--glass-shine);
+.sbar-icon{position:absolute;left:46px;color:var(--t3);display:flex;align-items:center;}
+.sinput{
+  width:100%;padding:9px 36px 9px 44px;
+  border:1px solid var(--gb);border-radius:8px;
+  background:var(--g1);backdrop-filter:blur(16px);
+  color:var(--t1);font-size:13px;font-family:'Segoe UI',sans-serif;
+  outline:none;transition:all .2s;box-shadow:inset 0 1px 0 var(--shine);
 }
-.search-input:focus {
-  border-color:rgba(232,80,10,0.45);
-  box-shadow:0 0 0 3px var(--ks-glow2), inset 0 1px 0 var(--glass-shine);
-}
-.search-input::placeholder { color:var(--text3); }
-.search-clear {
-  position:absolute; right:20px; top:50%; transform:translateY(-50%);
-  background:var(--glass-2); border:1px solid var(--gb); cursor:pointer;
-  color:var(--text2); width:26px; height:26px; border-radius:50%;
-  display:none; align-items:center; justify-content:center; transition:all .15s;
-}
+.sinput:focus{border-color:rgba(232,80,10,0.4);box-shadow:0 0 0 2px var(--ks-glow2),inset 0 1px 0 var(--shine);}
+.sinput::placeholder{color:var(--t3);}
+.sclear{position:absolute;right:36px;background:var(--g2);border:1px solid var(--gb);
+  cursor:pointer;color:var(--t2);width:22px;height:22px;border-radius:50%;
+  display:none;align-items:center;justify-content:center;}
 
 /* ══ VIEWS ══ */
-.view { display:none; flex:1; overflow:hidden; }
-.view.active { display:flex; flex-direction:column; }
+.view{display:none;flex:1;overflow:hidden;min-height:0;}
+.view.active{display:flex;flex-direction:column;}
 
-/* ══ 4-COLUMN GRID ══ */
-.sit-columns {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  padding: 14px 36px 18px;
-  overflow: hidden;
-  position: relative; z-index: 10;
+/* ══ 4-COL GRID — fills remaining height ══ */
+.cols{
+  flex:1; min-height:0;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  padding:10px 28px 10px;
 }
 
-/* ── COLUMN ── */
-.sit-col { display:flex; flex-direction:column; gap:6px; min-height:0; }
+.col{display:flex;flex-direction:column;gap:0;min-height:0;overflow:hidden;}
 
 /* Column header */
-.col-header {
-  display:flex; align-items:center; gap:10px;
-  padding: 10px 16px;
-  background: var(--glass-1);
-  border: 1px solid var(--gb);
-  border-radius: 9px;
-  backdrop-filter: blur(16px);
-  flex-shrink: 0;
-  position: relative; overflow: hidden;
+.chdr{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;
+  background:var(--g1);
+  border:1px solid var(--gb);
+  border-radius:7px 7px 0 0;
+  flex-shrink:0;
+  position:relative;overflow:hidden;
 }
-.col-header::before {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
-  background: var(--cat-color, var(--ks-orange));
-  box-shadow: 0 0 10px var(--cat-color, var(--ks-glow));
-}
-.col-header::after {
-  content:''; position:absolute; inset:0;
-  background: linear-gradient(90deg, rgba(255,255,255,0.018) 0%, transparent 50%);
-  pointer-events:none;
-}
-.col-dot {
-  width:7px; height:7px; border-radius:50%; flex-shrink:0;
-  background: var(--cat-color, var(--ks-orange));
-  box-shadow: 0 0 7px var(--cat-color, var(--ks-glow));
-}
-.col-title {
-  font-size:10px; font-weight:600; text-transform:uppercase;
-  letter-spacing:.16em; color:var(--text2);
-}
-.col-count {
-  margin-left:auto; font-family:'IBM Plex Mono',monospace;
-  font-size:10px; color:var(--text3); letter-spacing:.05em;
+.chdr::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--cc,var(--ks-orange));box-shadow:0 0 8px var(--cc,var(--ks-glow));}
+.chdr::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(255,255,255,0.016) 0%,transparent 50%);
+  pointer-events:none;}
+.cdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;
+  background:var(--cc,var(--ks-orange));box-shadow:0 0 6px var(--cc,var(--ks-glow));}
+.ctitle{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--t2);}
+.ccnt{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);}
+
+/* Items wrapper */
+.citems{
+  flex:1; min-height:0;
+  display:flex; flex-direction:column;
+  border:1px solid var(--gb);
+  border-top:none;
+  border-radius:0 0 7px 7px;
+  overflow:hidden;
+  background:var(--g1);
 }
 
-/* ── SITUATION ROW ── */
-.sit-row {
-  display: flex; align-items: center; gap: 0;
-  background: var(--glass-1);
-  border: 1px solid var(--blue-border);
-  border-radius: 9px;
-  cursor: pointer;
-  transition: all .2s ease;
-  position: relative; overflow: hidden;
-  backdrop-filter: blur(16px);
-  flex-shrink: 0;
-  /* BLUE GLOW — el brillo azul tenue en bordes */
+/* ── CARD — square feel ── */
+.card{
+  /* equal flex so all items share height */
+  flex:1;
+  min-height:0;
+  display:flex;
+  align-items:center;
+  gap:0;
+  cursor:pointer;
+  transition:all .18s ease;
+  position:relative;
+  overflow:hidden;
+  border-bottom:1px solid rgba(70,150,255,0.10);
+  /* BLUE GLOW on all sides via box-shadow inset */
   box-shadow:
-    0 0 0 1px rgba(80,160,255,0.08),
-    0 0 10px var(--blue-glow),
-    inset 0 1px 0 var(--glass-shine);
+    inset 0 0 0 1px rgba(70,150,255,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.04);
 }
-/* Top shine */
-.sit-row::before {
-  content:''; position:absolute; top:0; left:8%; right:8%; height:1px;
-  background: linear-gradient(90deg, transparent, rgba(80,160,255,0.25), rgba(255,255,255,0.08), rgba(80,160,255,0.25), transparent);
-  pointer-events:none;
-}
-/* Left accent */
-.sit-row::after {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:0px;
-  background: var(--ks-orange);
-  transition: width .2s, box-shadow .2s;
-}
-.sit-row:hover {
-  background: var(--glass-2);
-  border-color: var(--blue-border2);
-  box-shadow:
-    0 0 0 1px rgba(80,160,255,0.18),
-    0 0 18px var(--blue-glow2),
-    0 0 32px rgba(80,160,255,0.10),
-    0 4px 20px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-  transform: translateY(-1px);
-}
-.sit-row:hover::after {
-  width: 3px;
-  box-shadow: 0 0 10px var(--ks-glow), 0 0 20px var(--ks-glow2);
-}
-.sit-row:active { transform:scale(0.99); transition:all .08s; }
-.sit-row.hidden { display:none; }
+.card:last-child{border-bottom:none;}
 
-/* Icon */
-.sit-icon {
-  width:52px; min-width:52px; height:52px;
-  display:flex; align-items:center; justify-content:center;
-  border-right:1px solid rgba(80,160,255,0.12);
-  flex-shrink:0; transition:background .2s;
+/* top shine line */
+.card::before{content:'';position:absolute;top:0;left:5%;right:5%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(70,150,255,0.22),rgba(255,255,255,0.05),rgba(70,150,255,0.22),transparent);
+  pointer-events:none;}
+/* left accent */
+.card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:0;
+  background:var(--ks-orange);transition:width .18s,box-shadow .18s;}
+
+.card:hover{
+  background:var(--g2);
+  box-shadow:
+    inset 0 0 0 1px rgba(70,150,255,0.42),
+    0 0 14px rgba(70,150,255,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.06);
 }
-.sit-row:hover .sit-icon { background:rgba(80,160,255,0.06); }
+.card:hover::after{width:3px;box-shadow:0 0 8px var(--ks-glow);}
+.card:active{opacity:.88;transition:all .06s;}
+.card.hidden{display:none;}
+
+/* Icon cell */
+.cico{
+  width:46px;min-width:46px;
+  display:flex;align-items:center;justify-content:center;
+  align-self:stretch;
+  border-right:1px solid rgba(70,150,255,0.10);
+  flex-shrink:0;transition:background .18s;
+}
+.card:hover .cico{background:rgba(70,150,255,0.06);}
 
 /* Body */
-.sit-body {
-  flex:1; padding:0 12px;
-  display:flex; flex-direction:column; gap:5px;
-  justify-content:center;
+.cbody{flex:1;padding:0 10px;display:flex;flex-direction:column;gap:4px;justify-content:center;min-width:0;}
+.cname{font-size:12px;font-weight:600;color:var(--t1);line-height:1.3;letter-spacing:.01em;}
+.card:hover .cname{color:#fff;}
+.ctags{display:flex;flex-wrap:wrap;gap:3px;}
+.stag{
+  display:inline-block;padding:1px 6px;border-radius:3px;
+  font-size:9px;font-weight:600;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.04em;white-space:nowrap;
 }
-.sit-name {
-  font-size:13px; font-weight:600; color:var(--text1);
-  line-height:1.3; letter-spacing:.01em;
-}
-.sit-row:hover .sit-name { color:#fff; }
-
-.sop-refs { display:flex; flex-wrap:wrap; gap:4px; }
-.sop-tag {
-  display:inline-block; padding:2px 7px; border-radius:4px;
-  font-size:10px; font-weight:600;
-  font-family:'IBM Plex Mono',monospace; letter-spacing:.04em;
-}
-.tag-01 { background:rgba(77,168,255,.12); color:#6dbeff; border:1px solid rgba(77,168,255,.25); }
-.tag-02 { background:rgba(220,60,60,.12);  color:#f07070; border:1px solid rgba(220,60,60,.30); }
-.tag-03 { background:rgba(240,176,64,.12); color:#f5c85a; border:1px solid rgba(240,176,64,.30); }
-.tag-04 { background:rgba(61,207,138,.12); color:#4dcc90; border:1px solid rgba(61,207,138,.30); }
-.tag-05 { background:rgba(168,122,245,.12);color:#b898f8; border:1px solid rgba(168,122,245,.30); }
-.tag-06 { background:rgba(77,168,255,.12); color:#6dbeff; border:1px solid rgba(77,168,255,.25); }
-.tag-07 { background:rgba(255,125,66,.12); color:#ff9b6a; border:1px solid rgba(255,125,66,.28); }
-.tag-08 { background:rgba(61,207,138,.12); color:#4dcc90; border:1px solid rgba(61,207,138,.30); }
-.tag-09 { background:rgba(220,60,60,.14);  color:#f07070; border:1px solid rgba(220,60,60,.35); }
+.t01{background:rgba(77,168,255,.12);color:#6dbeff;border:1px solid rgba(77,168,255,.25);}
+.t02{background:rgba(220,60,60,.12);color:#f07070;border:1px solid rgba(220,60,60,.30);}
+.t03{background:rgba(240,176,64,.12);color:#f5c85a;border:1px solid rgba(240,176,64,.30);}
+.t04{background:rgba(61,207,138,.12);color:#4dcc90;border:1px solid rgba(61,207,138,.30);}
+.t05{background:rgba(168,122,245,.12);color:#b898f8;border:1px solid rgba(168,122,245,.30);}
+.t06{background:rgba(77,168,255,.12);color:#6dbeff;border:1px solid rgba(77,168,255,.25);}
+.t07{background:rgba(255,125,66,.12);color:#ff9b6a;border:1px solid rgba(255,125,66,.28);}
+.t08{background:rgba(61,207,138,.12);color:#4dcc90;border:1px solid rgba(61,207,138,.30);}
+.t09{background:rgba(220,60,60,.14);color:#f07070;border:1px solid rgba(220,60,60,.35);}
 
 /* Arrow */
-.sit-arrow {
-  width:36px; min-width:36px; height:52px;
-  display:flex; align-items:center; justify-content:center;
-  color:var(--text4); transition:all .2s; flex-shrink:0;
-}
-.sit-row:hover .sit-arrow { color:rgba(80,160,255,0.7); transform:translateX(2px); }
+.carw{width:28px;min-width:28px;display:flex;align-items:center;justify-content:center;
+  color:var(--t4);transition:all .18s;flex-shrink:0;}
+.card:hover .carw{color:rgba(70,150,255,0.65);transform:translateX(2px);}
 
-/* No results */
-#no-results {
-  position:absolute; inset:0;
-  display:none; align-items:center; justify-content:center;
-  font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--text3);
+/* ══ SOP VIEW ══ */
+.sop-wrap{flex:1;overflow-y:auto;padding:10px 28px 16px;display:flex;flex-direction:column;gap:5px;position:relative;z-index:10;}
+.srow{
+  display:flex;align-items:center;
+  background:var(--g1);border:1px solid var(--blb);
+  border-radius:8px;cursor:pointer;transition:all .18s;
+  position:relative;overflow:hidden;min-height:52px;
+  box-shadow:0 0 8px var(--bl),inset 0 1px 0 var(--shine);
 }
-
-/* ══ SOP LIST VIEW ══ */
-.sop-list-wrap {
-  flex:1; overflow-y:auto; padding:14px 36px 24px;
-  position:relative; z-index:10;
-  display:flex; flex-direction:column; gap:6px;
-}
-.sop-row {
-  display:flex; align-items:center;
-  background:var(--glass-1);
-  border:1px solid var(--blue-border);
-  border-radius:9px; cursor:pointer; transition:all .2s;
-  position:relative; overflow:hidden;
-  backdrop-filter:blur(16px); min-height:58px;
-  box-shadow: 0 0 10px var(--blue-glow), inset 0 1px 0 var(--glass-shine);
-}
-.sop-row::before {
-  content:''; position:absolute; top:0; left:8%; right:8%; height:1px;
-  background:linear-gradient(90deg, transparent, rgba(80,160,255,0.2), transparent);
-  pointer-events:none;
-}
-.sop-row::after {
-  content:''; position:absolute; left:0; top:0; bottom:0; width:0;
-  background:var(--ks-orange); transition:all .2s;
-}
-.sop-row:hover {
-  background:var(--glass-2); border-color:var(--blue-border2);
-  box-shadow:0 0 18px var(--blue-glow2), 0 4px 20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
-  transform:translateY(-1px);
-}
-.sop-row:hover::after { width:3px; box-shadow:0 0 10px var(--ks-glow); }
-.sop-num-col {
-  width:130px; min-width:130px; padding:0 18px;
-  border-right:1px solid rgba(80,160,255,0.1);
-  display:flex; align-items:center; justify-content:center;
-  height:58px; flex-shrink:0;
-}
-.sop-num-tag {
-  font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600;
-  padding:3px 9px; border-radius:4px; letter-spacing:.05em; white-space:nowrap;
-}
-.sop-body { flex:1; padding:0 18px; }
-.sop-name { font-size:14px; font-weight:600; color:var(--text1); margin-bottom:3px; }
-.sop-scope { font-size:11px; color:var(--text3); font-family:'IBM Plex Mono',monospace; letter-spacing:.03em; }
-.sop-arrow { width:44px; display:flex; align-items:center; justify-content:center; color:var(--text4); transition:all .2s; flex-shrink:0; height:58px; }
-.sop-row:hover .sop-arrow { color:rgba(80,160,255,0.7); transform:translateX(2px); }
+.srow::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(70,150,255,0.18),transparent);pointer-events:none;}
+.srow::after{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ks-orange);transition:all .18s;}
+.srow:hover{background:var(--g2);border-color:var(--blb2);box-shadow:0 0 14px var(--bl2),0 4px 16px rgba(0,0,0,0.5);transform:translateY(-1px);}
+.srow:hover::after{width:3px;box-shadow:0 0 8px var(--ks-glow);}
+.snum{width:110px;min-width:110px;padding:0 14px;border-right:1px solid rgba(70,150,255,0.1);
+  display:flex;align-items:center;justify-content:center;height:52px;flex-shrink:0;}
+.snumtag{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
+  padding:3px 8px;border-radius:4px;letter-spacing:.05em;white-space:nowrap;}
+.sbody{flex:1;padding:0 14px;}
+.sname{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:2px;}
+.sscope{font-size:10px;color:var(--t3);font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;}
+.sarw{width:36px;display:flex;align-items:center;justify-content:center;color:var(--t4);transition:all .18s;height:52px;}
+.srow:hover .sarw{color:rgba(70,150,255,0.65);transform:translateX(2px);}
 
 /* ══ MODAL ══ */
-.modal-overlay {
-  display:none; position:fixed; inset:0;
-  background:rgba(0,0,0,0.65); backdrop-filter:blur(10px);
-  z-index:500; align-items:center; justify-content:center; padding:20px;
+.mover{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(10px);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.mover.open{display:flex;}
+.modal{
+  background:rgba(8,10,20,0.95);backdrop-filter:blur(40px) saturate(1.5);
+  border:1px solid var(--gb2);border-radius:14px;
+  width:100%;max-width:620px;max-height:88vh;overflow-y:auto;
+  box-shadow:inset 0 0 0 1px var(--shine),0 0 20px var(--bl),0 0 40px rgba(70,150,255,0.06),0 28px 70px rgba(0,0,0,0.75);
+  animation:mIn .2s cubic-bezier(.16,1,.3,1);position:relative;
 }
-.modal-overlay.open { display:flex; }
-.modal {
-  background:rgba(8,10,20,0.94); backdrop-filter:blur(40px) saturate(1.5);
-  border:1px solid var(--gb2); border-radius:16px;
-  width:100%; max-width:640px; max-height:88vh; overflow-y:auto;
-  box-shadow:
-    0 0 0 1px var(--glass-shine) inset,
-    0 0 24px var(--blue-glow),
-    0 0 48px rgba(80,160,255,0.08),
-    0 32px 80px rgba(0,0,0,0.75);
-  animation:modalIn .2s cubic-bezier(.16,1,.3,1); position:relative;
-}
-.modal::before {
-  content:''; position:absolute; top:0; left:15%; right:15%; height:1px;
-  background:linear-gradient(90deg, transparent, rgba(232,80,10,0.55), transparent);
-}
-@keyframes modalIn {
-  from { opacity:0; transform:scale(.97) translateY(10px); }
-  to   { opacity:1; transform:scale(1) translateY(0); }
-}
-.modal-header {
-  padding:22px 26px 18px; border-bottom:1px solid var(--gb);
-  position:sticky; top:0; background:rgba(8,10,20,0.97); z-index:1;
-  display:flex; align-items:flex-start; justify-content:space-between; gap:14px;
-}
-.modal-header-left { display:flex; align-items:center; gap:14px; }
-.modal-icon-wrap {
-  width:50px; height:50px; border-radius:10px;
-  background:var(--glass-2); border:1px solid var(--gb2);
-  box-shadow:inset 0 1px 0 var(--glass-shine);
-  display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0;
-}
-.modal-title { font-size:15px; font-weight:600; color:var(--text1); line-height:1.3; }
-.modal-subtitle { margin-top:6px; display:flex; flex-wrap:wrap; gap:4px; }
-.modal-close {
-  background:var(--glass-1); border:1px solid var(--gb); cursor:pointer;
-  font-size:12px; color:var(--text2); padding:7px 14px; border-radius:7px; flex-shrink:0;
-  font-family:'Segoe UI',sans-serif; font-weight:500; transition:all .15s; white-space:nowrap;
-  display:flex; align-items:center; gap:7px; backdrop-filter:blur(8px);
-}
-.modal-close:hover { border-color:var(--gb2); color:var(--text1); background:var(--glass-2); }
-.modal-close svg { width:13px; height:13px; opacity:.7; }
-.modal-body { padding:20px 26px 28px; }
-.modal-alert {
-  border-radius:9px; padding:12px 16px; font-size:13px;
-  margin-bottom:20px; border-left:3px solid; line-height:1.65;
-}
-.m-danger  { background:rgba(220,60,60,.1);   color:#f07878; border-color:var(--red); }
-.m-warning { background:rgba(240,176,64,.1);  color:#f5c86a; border-color:var(--amber); }
-.m-info    { background:rgba(77,168,255,.1);  color:#7abeff; border-color:var(--blue); }
-.m-success { background:rgba(61,207,138,.1);  color:#5dd89a; border-color:var(--green); }
-.m-orange  { background:rgba(255,125,66,.1);  color:#ffaa7a; border-color:var(--orange); }
-.m-purple  { background:rgba(168,122,245,.1); color:#c0a0ff; border-color:var(--purple); }
-.modal-section { margin-bottom:18px; }
-.modal-section-title {
-  font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.16em;
-  color:var(--text3); margin-bottom:10px; font-family:'IBM Plex Mono',monospace;
-  display:flex; align-items:center; gap:10px;
-}
-.modal-section-title::after { content:''; flex:1; height:1px; background:var(--gb); }
-.step-list { list-style:none; padding:0; }
-.step-list li {
-  display:flex; gap:12px; padding:10px 0;
-  border-bottom:1px solid var(--gb);
-  font-size:13px; color:var(--text1); line-height:1.65;
-}
-.step-list li:last-child { border-bottom:none; }
-.sn {
-  min-width:24px; height:24px; border-radius:5px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:10px; font-weight:700; font-family:'IBM Plex Mono',monospace;
-  flex-shrink:0; margin-top:1px;
-}
-.sn-r { background:rgba(220,60,60,.18); color:#f07878; border:1px solid rgba(220,60,60,.3); }
-.sn-a { background:rgba(240,176,64,.18); color:#f5c86a; border:1px solid rgba(240,176,64,.3); }
-.sn-b { background:rgba(77,168,255,.18); color:#7abeff; border:1px solid rgba(77,168,255,.3); }
-.sn-g { background:rgba(61,207,138,.18); color:#5dd89a; border:1px solid rgba(61,207,138,.3); }
-.sn-o { background:rgba(255,125,66,.18); color:#ffaa7a; border:1px solid rgba(255,125,66,.3); }
-.sn-p { background:rgba(168,122,245,.18);color:#c0a0ff; border:1px solid rgba(168,122,245,.3); }
-.rec-list { list-style:none; padding:0; display:flex; flex-direction:column; gap:4px; }
-.rec-list li {
-  font-size:12px; color:var(--text2); padding:8px 12px 8px 28px; position:relative;
-  line-height:1.55; background:var(--glass-1); border-radius:7px; border:1px solid var(--gb);
-}
-.rec-list li::before {
-  content:"▸"; position:absolute; left:10px; top:50%; transform:translateY(-50%);
-  color:var(--ks-orange); font-size:11px;
-}
+.modal::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(232,80,10,0.5),transparent);}
+@keyframes mIn{from{opacity:0;transform:scale(.97) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mhdr{padding:20px 24px 16px;border-bottom:1px solid var(--gb);position:sticky;top:0;
+  background:rgba(8,10,20,0.97);z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.mhdr-l{display:flex;align-items:center;gap:12px;}
+.mico{width:46px;height:46px;border-radius:9px;background:var(--g2);border:1px solid var(--gb2);
+  box-shadow:inset 0 1px 0 var(--shine);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.mtitle{font-size:14px;font-weight:600;color:var(--t1);line-height:1.3;}
+.msub{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px;}
+.mclose{background:var(--g1);border:1px solid var(--gb);cursor:pointer;font-size:11px;color:var(--t2);
+  padding:6px 12px;border-radius:6px;flex-shrink:0;font-family:'Segoe UI',sans-serif;font-weight:500;
+  transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.mclose:hover{border-color:var(--gb2);color:var(--t1);background:var(--g2);}
+.mclose svg{width:12px;height:12px;opacity:.7;}
+.mbody{padding:18px 24px 26px;}
+.malert{border-radius:8px;padding:11px 14px;font-size:12px;margin-bottom:18px;border-left:3px solid;line-height:1.65;}
+.m-danger {background:rgba(220,60,60,.1); color:#f07878;border-color:var(--red);}
+.m-warning{background:rgba(240,176,64,.1);color:#f5c86a;border-color:var(--amb);}
+.m-info   {background:rgba(77,168,255,.1);color:#7abeff;border-color:var(--blu);}
+.m-success{background:rgba(61,207,138,.1);color:#5dd89a;border-color:var(--grn);}
+.m-orange {background:rgba(255,125,66,.1);color:#ffaa7a;border-color:var(--org);}
+.m-purple {background:rgba(168,122,245,.1);color:#c0a0ff;border-color:var(--pur);}
+.msect{margin-bottom:16px;}
+.msect-t{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;
+  color:var(--t3);margin-bottom:9px;font-family:'IBM Plex Mono',monospace;
+  display:flex;align-items:center;gap:9px;}
+.msect-t::after{content:'';flex:1;height:1px;background:var(--gb);}
+.slist{list-style:none;padding:0;}
+.slist li{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--gb);font-size:12px;color:var(--t1);line-height:1.65;}
+.slist li:last-child{border-bottom:none;}
+.sn{min-width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;font-family:'IBM Plex Mono',monospace;flex-shrink:0;margin-top:1px;}
+.sn-r{background:rgba(220,60,60,.18);color:#f07878;border:1px solid rgba(220,60,60,.3);}
+.sn-a{background:rgba(240,176,64,.18);color:#f5c86a;border:1px solid rgba(240,176,64,.3);}
+.sn-b{background:rgba(77,168,255,.18);color:#7abeff;border:1px solid rgba(77,168,255,.3);}
+.sn-g{background:rgba(61,207,138,.18);color:#5dd89a;border:1px solid rgba(61,207,138,.3);}
+.sn-o{background:rgba(255,125,66,.18);color:#ffaa7a;border:1px solid rgba(255,125,66,.3);}
+.sn-p{background:rgba(168,122,245,.18);color:#c0a0ff;border:1px solid rgba(168,122,245,.3);}
+.rlist{list-style:none;padding:0;display:flex;flex-direction:column;gap:3px;}
+.rlist li{font-size:11px;color:var(--t2);padding:7px 10px 7px 24px;position:relative;
+  line-height:1.55;background:var(--g1);border-radius:6px;border:1px solid var(--gb);}
+.rlist li::before{content:"▸";position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--ks-orange);font-size:10px;}
 
 /* ══ FOOTER ══ */
-.footer {
-  flex-shrink:0; padding:10px 36px;
-  border-top:1px solid var(--gb);
-  display:flex; align-items:center; justify-content:space-between;
-  font-family:'IBM Plex Mono',monospace; font-size:10px;
-  color:var(--text3); letter-spacing:.08em;
-  position:relative; z-index:10;
-}
+.ftr{height:var(--fh);flex-shrink:0;padding:0 28px;border-top:1px solid var(--gb);
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t3);letter-spacing:.08em;
+  position:relative;z-index:10;}
 
-/* ══ TV SCALING ══ */
-@media (min-width:1920px) {
-  :root { --hdr-h:76px; }
-  .sit-name { font-size:14px; }
-  .sit-icon { width:58px; min-width:58px; height:58px; }
-  .sit-arrow { height:58px; }
-  .sit-columns { gap:16px; padding:16px 44px 22px; }
-  .modal { max-width:700px; }
-}
-@media (max-width:1100px) {
-  .sit-columns { grid-template-columns:repeat(2,1fr); }
-  html,body { overflow:auto; }
-  .view.active { overflow:visible; }
-}
+#no-res{display:none;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--t3);
+  position:absolute;inset:0;pointer-events:none;}
 </style>
 </head>
 <body>
-<div class="bg-grad"></div>
+<div class="bg-g"></div>
 <div class="bg-grid"></div>
 
-<!-- HEADER -->
-<header class="header">
+<header class="hdr">
   <div class="logo">
-    <img src="data:image/png;base64,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iICHuUHkfHm3X2qsfiV9ndbopI2tFEJw/aIOvq26cFF7uRjSk6jMOb37QPpltiiA1N9JjTfhEl+aB9MnpMab8IkvzQPpltkiA1N9JjTfhEl+aB9Mp1yKy4jytwU/DUd3ddQ+skqufNPzPqmtGzs7TuGzx16VnqIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCwbNrLyDHtJRNFxNtqqRziycQmTVrgNWkbTe4Dx3LOUWOrShVi4TWaZYtbqtaVVWoy5MluZALuTlKddMbH5s/iqg8m+Q/dufmz+KtgUVbydbdg3P8AuvF/TPuj9jXs8muQ/du75s/irg8mlx+7c/Nh+mWwqL6sPtl+w+/7sxj077o/YizKPKSfAGIJ7m3FDrhFPTGCSn6jMQJ2mkO15x28aHo6SpTRFZp04048mKyRp729r31V1riXKk+Pu9wREUyqEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAYTnxcq+0ZO4pudrq5qOtpre+SGeJ+y+Nw03g9BUY8iHFWJMV4TxDU4kvdbdpoK9kcT6qYyOY3m9SBqdwUh8pD7BOMfyZJ/gtKckM5cX5Z2S42/Ddjt1xiq6ls0r6mGV5Y4N00Gw5vEDp8KA+i6LSw8q7NIOI6zLHuOh/klTx+MT01+afeZY/kdT9IgN01A3LJzNrMEYLpLLYLg+jvt2mBbLC/ZlggYdXPBB1aXODWg6EEbfcUSjlXZpn7i7H8jqfpFH9yxbeM6M7sMMxrzFDFUVlNQmngjcyOOEyjUNDi47TyTvOu8joGgA3K5NMOJOxBabliu7V1zud0aa4yVU/OubFIBzTQegbAa7ToLjrv1CklUQRRwQRwQsbHFG0MYxo0DQBoAFRXVVNQ0c1bW1EVNTQRukmmleGsjY0alzidwAG/VAWvHGJ7Tg3ClfiW9yvjoKGPbk5thc9xJAa1o6SSQOgb95A1K0WxVnFm3jO73/FmHK692myUYYZoaKofzFHGSGs2zrptOI4gDU66Ab13coTNGozczFpcP2u9Q0OE4apkFG+qeYIC4kNdUzE9AJJBI7VnAAl2uy+WVzyTwPl3DgyDHmEq6mMb210k1dTjqx7x9cL266EEHZAOvagDU6aoD0cmXN6nzMwr1Nc54I8T29ulbA0bJmZro2dreGh4OA9S7uAtUvL585ktsOU2btuxRlTiy2XWjLzUwQU9Vz4ptDo6nkcx3bMcDoNTqW6g8No7rZP4/tWZWCKXEtrjfAXkxVVM86up5mgbTNekbwQekEbgdQAMumfzcT5NNdlpOnuLUSbHma2O79Uz4fqrowMbtiitriG08eug12dC490u1PHTQblt3M0vhewbi5pC00wjX43yvxRWmjszzWBhp5o6ije+ORuuocNNk6bgQQRuK1t/KScEm0nvyO32PpUp07mXJjKqkuSpbuOZeDTZ/g7jiz49/lTqfP8A7uLPjneVXeflB48geGTYcs8biNdHQTg/peqPTE42+8Nk+Jm+kVL/AIe3I6jPFHr0aj3otfU+f/dxZ8c7yp1Pn/3cWfHO8qvEnKBx9HE2WTDdpZG7TZc6nnAPuHbXNRn/AJgQRmSbDNqiYOLn0s4A4dJf4R40yo9uR8TxNvLo1HvRn3J3jzCjnvXXybvsFsPUvVzy7fq/b2dT/urDc+sxcYNzCfgzDdTUULKd8UY6kP16plkYxzRtaaje7QAcenXgJJyOzKfmDb61lZQspLhQFnPc1rzT2vLtkt1JI9SQQf8AFQ1yh7bfrBm9JiumppWQyyU1TR1Yi2o2yxsaA0kjTaBj107hCtV5uNrF022uvjkaPC6Ma2PVle0oxmovKL/TylycsvetTzdT5/fanFunhmf5U6nz/wC7iz453lVzHKIxu1oBsdlcQN55iYa/8Rc+mJxt94bJ8TN9IquVHjORvf8Ayj16NR70WvqfP/u4s+Od5U6nz/7uLPjneVXxufeYj2B7MLWwtI1DhSTkEfDXUOUJjowum63LQY2nRzxBNsj39vwplR7cj5nifq1HvR6stYc5mY9sxv5xL6Gmo/lPVEj3RbGh12t+inPG1ZUUcFN1PNJEXudqWHeQAFFGVeelzxHjClw/fLPRxitdzcMtHtN5t4BPbBzjqDoBu008PRJ+YOnMUZ6dp2n6FRxyrzODV50ZvPTXitYo5LF43EsTpxuqMYPLdHc1rqWyF+JJomSxur3Me0EEE71Vs4o/2h4z5VVRYlrqakip2U0LmxsDQSDqdPfXd113H2pB8F3lXEUvJ0qcXO5rZ5LPR7yk+eTyVOJ59nFH+0PGfKmzij/aHjPlXo667j7Ug+C7yp113H2pB8F3lWTLDPWa3cz5nX9HE84bijeB1fv7pKyiqkqIcNule9zKhtMC467w7Tf+lY+MV3A/6NT+5su8qvtzlNRhaWdzdkyU22R3NRquhwXo8aFxK3q1JNQf681lv3FK5U3OCnFLXgeXBVXUVdLUdUzPlcx4ALjru0V/WNYC/wA3q9B/2g/uWSrf7LVZ1cJozm83k9X72VL+KjcSSCIi6AqBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREBH3KQ+wTjH8mSf4KIvqex/6D4mbrwuUe7/AMNbJXy12+92iptN1pY6uhqozHPC/wBS9p4gq2YLwZhfBlJUUuF7NT2uCokEkzIddHuA0B3k9CAv6IiALUbl74Mngr7LmFb4wxu6irHxjRzZGkuieT4RtDXo2WjfqNNuVbcS2K0Ylss9lvtBDX2+o2edglB2X7Lg4a6dwgFAWDJbF8eOcsLHiQSbc9RTNZV9rs6VDO1l3dzaBI8BC1x5X2bFXiO8NyowZsV8MskcdwdTAyPqKjb7WnYAN+y4NJ01JdoN2yddocM4Ow1hmw1FisFrZbrdUOe+SCCR4G09oa4g66tJAHAju8Va8KZWZe4Vu7Lvh/Cluoa+NrmsqGNLntBGh0LidCRu147z3TqBrfZ+RtXVVppKm547bQV0sLH1FK21CUQyEAuZtiYB2h3agb9F6vSX/wDeT/Yn8dbcIgNShyMYwG//AFGd4f5m4/8AHWBUPXhyYc4oo62d9XYK4/XTENY6+lB9VsE9rK3Xu7iSNS1x13yVhxng7C+MqOGkxRZKS6QwPL4hO3fG4jQkEaEbv8O4gPVhzEFpxHhulxDZKyOtt1XFzsMrODgNQQdeBBBBB3ggg8FCkfKXoOdcJcJ1LY9TsuFYCT7o2Bp41M2E8LWDCloNow9bY7fQF5f1PG5xYHEAEgEnTXTo6dTxJWPz5RZcTPDn4VpWkDTSOSRg8TXALBXjWllzTyNvhdbDqfL6dTlPPLLJ5ZdfFEbP5TFKHkMwfKW67ibgASPc5tcemYp+86T5xH0alHsWZe96du+CfKnYsy9707d8E+VVuavO2u43HTdm/Vp/N+SM5OUvQCJpjwlUuk+2a6taAPcOwdfErZiHlD0t3sFwtTsHvaKylkg2nVrXhpe0gEgxjUb1L/Ysy9707d8E+VOxZl73p234B8qOleNZctdx9hf7OwkpRtp5r/2/JFHI3ifz2Jp+bfzRFMwP2e1JHOEjXhqNR41leYWeFJhDGlZhyTD01YKQR85O2pDdS+Nrxo3ZPsgOPdUnWGyWiw0XUVmt1NQU+0XFkMYaCT0nun3VZb/l3gu/XZ91u9gp6qtkLS+Uve0v0AA2gCAdzQN6nGhVpUFCnLUrXGLWF9ilS7vKTcJLRJ5NNJJPw8SKp+UvQh+kGEqiRmnF9cGnX3Awrr9MxT950nziPo1KPYsy9707d8E+VOxZl73p274J8qg6V5n+tdxnV7s5lrbT+b8kX+mYp+86T5xH0a4PKYg03YOk8H84j6NSj2LMve9O3fBPlTsWZe96du+CfKnNXnbXcfem7N+rT+b8mumB7yMVcoy332mt/Ujauv50U7Dt7IEZ2jqANeBcTp3VspmANYqPubTwT7wXrw7g3C2Hql1TZbDQ0U7hoZY4+307gcd4HgCu1fQ0tdG2OqiEjWnUAkj+5UMRwmrd4fVtuUuVPXPhvT+hVxTG6F1d0qlGDjCnFRSbzeWv3MWt+KGUtFDTmi2ubYG6h+mv6F39d7PaB+MHkV3GH7QP9Db8N3lT0AtHtMfDd5VqKWGbRUoKEbiGSWS83q+BrpV7KTzcH3/ktHXez2gfjB5E672e0D8YPIrv6AWj2mPhu8qegFo9pj4bvKp9A2k9Yh8v4I87Zdh9/wCS0dd7dCfQ87h/rB5FeLs/qrDk8sTXHnafaa3TfvGq49ALR7THw3eVXJjGsYGNaA1o0AHABbKxscTdOrTvqsZKSyWSyyz38EYKtWgpRlSi1k+JgWH756Fsni6nEwe8EHb08B6FdOvBun+YH439yvU9ltc8rpZKRhe7iQSP0Aqj0AtHtMfDd5Vp7TBses6KoUbiHJjotPa31Fqpc2lWTnODzftLT14M9oH439ydeDPaB+N/crt6AWj2mPhu8qegFo9pj4bvKrHQtpfWIfL+CHO2PYfeWnrvaf8AQD8b+5XmxXRt1pnzNiMRY/ZLddegHVUegFo9pj4bvKvZQ0dNRRGKliEbCdogEnf762GG22M06/KvK0ZQy3JZa9xhrztpR/4otM70RF0JTCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiICK8+M7cP5Ux01JUUU12vNUwSw0MUgjAj2tkve8g7I3O00B1LdNw3qHHcs/Q7sttR+W/4CxXl66NzotEkjCY/QODo3HSon1H/zuqSqPMHklzUsU0tlw9Sve0OdDLhl5ew9wlsTm6+4SEBj3p0D+Db+3P4CenQP4Nv7c/gLJ+vzkj/e/DP5sS/QJ1+ckf734Z/NiX6BAYx6dA/g2/tz+Arjh3lfR3a+W61uy/dTmtqo6fnPRjaDNt4br/kRrprr0K7dfnJH+92GfzYl+gV8wLfeTJiPElLbsNW/CfoqXh9KH2U0znPBGgY6SNoL9dNADr3EBmufWZTMq8FwYkfZzdudrmUggFRzOm0x7tra2HcNjhp08VBDuWf2xDctyR0H0b0/9hZny+fsLUP5dg/YzqOMhMWcne2ZW2qhx5R2STEMbpjVOqrHJUPOszyzV4icD2mx07uCAufp0D+Db+3P4CenQP4Nv7c/gLJ+vzkj/e/DP5sS/QJ1+ckf734Z/NiX6BAYx6dA/g2/tz+Anp0P+7b+3P4Cyfr85I/3vwz+bEv0C46/OSP97sM/mxL9AgJoyuxizG2XVsxjJRNtkdbFJK6B0/OCIMe5u9+y3X1OvAaaqMsScpC1UVzlprLh6W6U0bi0VMlVzAkI6WjYcSPCdFI+Ha3C1xypNbgqKnjsEtDUGjbBTGnYB24dpGWtLe2Duga8elQHyVMO2PEF+vPo5a6S5NpqWPmmVMYka0ucdSGndruG/wAqp3NSopxhTeWZ0+BWVlO1uLu7i5KnydE8t7yMhPKccDocFDX8qfwk9M6e8ofOn8JTJ2PcCd51h+QR+ROx7gTvOsPyCPyKPNXfbXcZen7Peqy+Z/chz0zZ016yh86fwlx6Zt5B0wQD3P504/8ABUyHLzAh+46w/II/IrRi/KnB12w5X0Vvw3aKKukp5G0s8UPM83KW9o4lmh0DtD09KOndJfrXcShe7PSmk7aSX/Z/cuOWOPrLj6zyV1q52GaBwZU0s2nORE8Du3Fp0Oh8B6QQsaumbwos3WYAGHzJtVMNOazqvQgyNa7Xm9jfptD7boKpyBy2vOXxvRu9bQVJuHMc31K97tnm+c112mt47Y4dxRdiXT03UZJA/nSk/Yxr5UrVYUoOWjbSZK1wvD7i/uqdJ8qnCEpRefFJd+TbRtKiIr5x4REQEXW7NxtXm+/L82Es2aiSAVgq9dSxhdqWbG71J+2K92c+ZnY6ZaiLL6JuuBl41PMiMR7Gu/ZdqTtjo6FDuHP/ALvJfynVfsZFf+WbrzeFdD9tV/8AsrWu5qKjUnxTyXejuqeB2bxSzt3HzalNSks3q+TJ/DcjrPKbcDocEjd/tT+EuPTOO7yR86fwlb8GYgyLp8J2qC+WyCS6R0sbatxt73F0gaNo66b96u3XNydvvTT/ADY/zVjVSs1nzqLM7HDISceg1Hlxzevt3nT6Zt3eT/af8JPTOO7yR86fwl3jE/J3+9EA8PobJ5E65+Ttr/1PB7voY/yL7y63pUR6HhvqFTvf3PZhzlIWytusNPecOS2yklIaamOr5/myTpq5uw3tdNdSNTu4KbK64RU9qdcI9J4thrmFh3OB00IPc3rTPOS44IuN6pZMC0jaWiZT6T7NOYg6TaPQd53aLcXD0bJsK22KZge11FEHA79e0CnRq1qqqU1JcpLR8M2jWbRYXa2lO3uKNNwU884t6rJlmGMHfe8fG/uXPXg773j439yvnoLavaEHwU9BbV7Qg+CufWHbR+tR+X8Gj56y9G+/8li68D97x8b+5c9eDvvePjf3K3X+mp4cRspoYWsiLo9WDhv01WXMs9radRQU5P8ASYD/AHrWYfUx6+rVqUblJ05cl+bv3+z2GetG0pRjJwfna7yxdeDvvf8A8X9yvdiuXonSOnMPNFryzTa16Af8V2NtVsbrpb6bedd8QK9EEENOzYgiZE3XXRjQAulw20xalWUruupxyeiWWpRrVLeUcqcMn7zGp8XbE0jG0O01ri0Eyaa6H3FR14H73j439yvz7Pa3vc91DCXOOpOzxKp9BbV7Qg+CtdLD9onJtXUcv+v4M0atllrTfeWM4xI40AH/AI37kGMHHhbx8b+5MZW6hpaKB8FNHGTLskgdGh8i9uHbVb57LTSzUkb3uaS5zhvO8rVU57QTxCdj0hcqMeVnyVlvXs9pYkrNUVV5D1eW88fXg773j439y99jxB6JVppnU3NEM2gdva138OC95tFrLQ3qCn0HcjAPjXdS0VJSkmnpooidxLWgE++ugs7LG4XEZV7iMoLeuTqypVq2rg1CDT95a75fjba5lKKXndpgdtc5s8SfB4Fe1hWNyG3uFxH/AGLT7ujir63E1nLQTUOGo4GN279Cw2OOJYhdUbuqoqDXJTyWmTz95KraPmqc6cW81qXhFaOuSz+2XfFu8idcln9su+Ld5FuvLOH+mj8yK3Rq3YfcXdWa53w0d2joRTh4dsav29NNo6cNFV1yWf2y74t3kWNXmsgrcQxTUz9pm1GASCN4PhWi2g2hp0LaMrOqnLlRWjT04lm0s5Tm1Ui8smZ4iIuvNeEREAREQBERAEREAREQBERARlnVh/KHE81HQZjXSzUddTxmSlNRdGUk7Y3HeRq4EtJZ0gjcdOlRmcpeS2d/XXZvzoj89X7lEcn+tzUxtSYip8TU9rZBb2UZhkpXSElskj9rUOH+s095RseRpdu/yi+b3+egMr7EnJb77LP+dEfnp2JOS332Wf8AOiPz1ifpNLt3+UXzc/z09Jpdu/yi+bn+egMs7EnJc77LP+dEfnqB8d4fwfhvlC2W24FukdwsvVtBJHNDVtqA17pG7QEjTv0I18HBSZ6TS7d/lF83P89ZJlvyTYsP4wt96v2Ko7nS0MzahlLDR7HOSNcCA4uLhs7t+g17hHFAX7l8A9hWh/LkH7GdRhkVl5kNfcr7XdMbYht1JfpnTCphmvrKdzNmZ7WfWy4EdoGnw66rY3lCZb1GaWB4MOU11itj4q+OrM0kJkBDWPbs6Aj2fd6Fr+eRpdu/yi+bn+egMs7EnJb77LN+dEfnp2JOS332Wf8AOiPz1ifpNLt3+UXzc/z09Jpdu/yi+bn+egMs7EnJb77LP+dEfnp2JOS532Wf86I/PWJ+k0u3f5RfNz/PXPpNLt3+UXzc7z0Bslhm14bsuU3oZhCriq7HBQ1ApJoqkVDXA7ZOkgJDu2Lh72igrkm3yzWW+Xz0Xu1Fb2z0sXNOqZ2xtfo466FxA13jcp5ypwc7BuWdrwbW1cdx6jhkikmbGWNkD3vd6kk6bnacVFOIOTbHPdJ5bLiJlLQvcXRU9RTGR0Wp12doOGoHRu10048VSuqdRzhUprPLM6nALqxVtcWl5NwVTk5NLPc8yZOvjBfffh/5yh85OvjBXffh/wCcofOUFHkz3MnXrtpPeo3ecnpZrl320nyN3nKPPXXo/Ez+SsA9cfyk69fGCu+/D/zlD5ytmKcycI2rDtxuFJiSxVtXT00ksFLHcI3OmkDSWsAaSd50G4KHfSzXLvtpPkbvOT0s9z6MW0mv4m7zl8da67HiThhmz6km7tv/AOfwSVkbmXV5iNu3VdrgoDQczpzUpft7e3rrqN2mx+lQ5jitprdyqzXVtRFTU0NypHSyyEhrG81HqT73TwCnPJzLiiy8s9RBHVvra6sc11VORstOztbAa3oADj0nUk+ADHc3MlKLGd7dfrbcvQ24zbIqecjMkcoDdkHTUEHQAbtx0SrSrToRz1knmfbG/wAMt8UrqDcaM4uCfVmlm+vJtNme9fGC++/D/wA5Q+cnXxgrvvw/85Q+coKPJnuZPrspPeo3ecnpZrl320nyN3nL7z116PxIeSsA9cfy/gnXr4wV334f+cofOQ44wUBqcYYf+cofOUFelmuXfbSfI3ecnpZrl320nyN3nJz116PxHkrAPXH8v4LThCrpa7lY9WUVTDU00txqXRzRPDmPBhk0II3EeELJOWbqBhVw03dVjf4eZV1y0yKrsI42tuIZsRU1XHRue4xNpnNLtqNzeJcfZarKM8Ms6nMUWgU93it3UHPbW3AZNvnNjuEaabH6VhVvVdvOLWrefijYzxewpYza1qdTOnThyW8nvykt3xRjeBckcBXfBNjutZR1xqay3QTzEVbgC98bXHd0byrz2Acufadw+WOUhYTtbrHha1WV0wndQUUNMZA3QP2GBuunRrormrkbWlks4o5itj+Ic5LkV5ZZvLV7iKxkDlz7SuB/845dc/J/y+fDI2KG5RSFpDJBVuJYdNzgDuOh371LCKXRaPZRiWPYknnz8u80zyysFDb87aTDOLqAVDIqqSndG4FrDIAebcR9swkDQcDta7xuO5L3RQRbT3MijaNNSQAAonzWyekxbjGmxRZr020V0bGc44xF+1Iw9pINCNHAaDp12W8NN8n3GllrLTJSveznXxgOcBo3a9zuaqrCnUt6VTkRzazcfbpojZbQYlSxSVCty9eTlJa6Pi/j9Cr0Rt/t6l+Ob5U9Ebf7fpfjm+VYy3CFRsjarY9entCuetCf27H8ArnfK20Hqa+Y1XR7P0vgeTEE8MmJ2TRyMkj2o+2a4EbiNd6zD0Rt/t+l+Ob5VjXWhP7dj+AU60J/bsfwCtThzx6xrVqsbVPnJcrfu3/csVuh1Yxi6n6VluMlNytw43CkH/jN8q74JoZ2bcEscrddNWOBH6FiZwfMRoa2P4B8qv2Hra610b4HSiUukL9QNNNwGn6F0+GX+LV63JurdQjk9c89ShXpW8Y5055suKIi6IpmO4909DqfX/Xf4FXDC51sNJ/un+8rjEVrddKaOJkwiLH7WpbrruI/xXqtVKaK3w0peHmNum0Bpqubt7GvHHat015jgkn7c0XZ1oO0jT4pnpREXSFItd6pLRVuaLhJEx7RuJl2CB41bvQjDPDqyL5SF33+wy3OuFQypbGBGGbJaTwOqt3WhPrr1bH8ArhMUo3dS7m42EZrtN6s2tvKkoLOs17D1ehGGvbkQ/8AMtT0Iw17dj+UtXl60J/bsfwCnWhP7dj+AVrui3r18mQ7zPzlL07PV6EYa9ux/KWqy19LSU9+ijoXh8O0wgh21v1HSrgMITjX+WxfAK9Fuwq6Csjnmqw9sbg4Na3TUg6rBXwm+vOTTjYxpecm5Jrct5OFxSp5y51y04mToiL1M0AREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAETghIA1J0QBETUa6ajXuIAiIgCJqO6FxtN9kPGgOUXG032Q8a51G7fxQBEQkAak6IAiIgCLjab3R402m+yHjQHKLjUaa6hNpvsh40Byi42m+yHjXOo011GiAIuNpvsh40Dmk6AjX3UByiajXREARNRrouNpvsh40Byi42m+yHjXIII1BGiAIuNpvsh402m+yHjQHKLjaGmuo8abTfZDxoDlFxtN9kPGudRu3jfwQBEQkDigCIiAIuNpvsh402m+yHjQHKIiAIiIAiJqO7xQBF0U9ZR1FRU09PVQSzUrgyojZIHOhcWhwDwN7SWkHQ9BBXdtN9kPGgOUXG032Q8a5BB4HVAERcFzRxcPGgOUXG032Q8aAgnQEFAcoiAg8DqgCISBxOi42m+yHjQHKLjab7IeNc6jdvG9AEREAREQGMZo4PoMd4HuOHK+OImeJxppXtBME4B2JAdDoQTxG/QnuqNqPMa1V+ROKIMfU7qm6Yehfar9RNJa+on3xxljmjcZToQ4DtSSdwCnBRxi7JbA+KMw6LHF0pqo3GmdE58LHtFPVOjOrDKwtO0RuHEagAHVAYXybMxZaDL2qw1j5s9pu2F6AVL+rO1fNQaaxyAE6nZBazgBvYBvOg9eX1pqsQYdxdmxiGGo6txDQVDLVBUbJNJawwmFgGmjS8ds7Q6HceJJOW5p5O4NzIvNruuI4qwT28FmlNI2MVMZc13NynZLi0aHTZLSNt2/XQjOKy3U1TZprTsmKllp3U2ke4sYW7Pa9zQcEBDOU+Zdwosr8K0Qywx7Wins9LEKmmooHRTBsTRtsJlBLXaagkDcVk4zUuP4JMxfB/IKf6dZzhiz0uHsN2yw0LpX0ttpIqSF0rgXlkbA1pcQACdANdwVxQGntO+K+ZMY8fcLRc3Q12ZwM9sa3Sr2XzwbUAAOgk0Jbx02t2q9xyzyw1+wTmp8Jn/MqbqrJ7Dc2Hr5ZWXO+U0d5vzr9NUQVLGTw1Rc131pwZ2rQWAjcSO6vJ2Gm9OaeaRP8A/REf3MQEOjLTLAD7BWapHc2m+L/OFm2O8L2+71mTeGKQX/DVGZKsQtbOIq+k5ujc9gLu3G0C0a669KywZNtGumaeaO//APYidOP9Dw/oCylmCbf1XhWsqbjdq2qwyJepZ6moEkk5khMTnTOLdXnZcTqNN/iQGJMuWZuX0QZfKR+PsPws/wCsKCIR3SJo6ZIddmbThqwg6Ak6nji3KPxphrGXJkxHc8MXiCuYySkbK2N+zLA7qqIFsjPVMPHcePEahT8oyzLyLy8x7UGsuVtlt9e9+3LWW1zYZJtd5D9WlrtTv1I116eKAkuHdEwf0QrXjSK5VGDr1BZnSNuclvnZRmN4Y4TGNwZo4kaHa036jRXVo2WgdwaLoudL1dbaqi6pqKXqiF8XPU79iWLaBG0x3Q4a6g9BCA1Is2XOD6i1Us+Ksk8z6u+viabhURTiRs02nbvDnTg9sdTvG7XTfxXq7GWWGuvYKzU4a8Wf8wpk7DTPwpZpfnG7zFwcmhpuzTzSB3aHriJ08bEBFt26w/SmYwpsE2a80FuivcFPX0NwOtQyoFTSCRvqyPU7P22muvhVvOWWWH4Cs1D/AFmf8wpyiyhwrDllW4BhnurKGuqW1dVWdUg1k04lZJzrpC0ja1jYNdOA7u9eA5NsJJ7KWaO867sRO8xAQ52MssPwFZq/CZ/zCyjEGEbLejlRl0234jw/hat9FZamz1NRzc7uZDZGCbZc7UbTnEdtweOB4Z12GmafZSzS/ON3mL3Yhyks99s+H6OtxJiwVtgllko7sy56Vx5w6vD5S06j1I4AgNA1011Axn0r2UHTZq8n8oy+VWvE3J6y0w3bmXmy4gqsD11NPG6K7yXB2kR102e3e0dtw4rLTk2wnXspZo/nE7zF1VGRtlrzBFfcaY8v9BHMyZ1Bc71z9PMWkEB7dgEjUd0ID14A3Z8ZngFo1hs5IGvHmJRqfDuA9wBSWo6xZlHaL7jGrxXT4mxdYLlWwRwVRs90NO2YMGjSRsk6gabgQN2umpOvi7DTenNPNInu9cRH9zEB4MznEcpjKJoJ0Md41AOmv8lGmvdUGTYGsGIcb44uN1y8xxiGbrpuEbKqzSxNgDRLuYdrftA7WvgIWxOHsnLRaca2rFtTizGV8uFq50UYu90FSyMSxmN4ALARqHdB4gLMMI4Yt+GGXVlvkqHi6XOe5z884HSWYguDdANG7twOp8JQGpvYowZr9hjNbT8Yg8qyXkvYZbXYvx/bKK3Xe14JdRvtNTarhXbczap4YHlzANA7Z5wbXEAgd3TahYuzA9rhv2JbzR1lyoqnEdKyCt6nnDA1zGFjZoyBtMlDTptA9AOmo1QEeScl/KHmjpZ6/aA9V6IS666ceOijzk4ZEZcY1ygs+JL/AGysnuFW+oEj21r2DRkz2N0DSB6lo9/VS6cmmFujs0c0HDTQ64hO/d/uLxWbIW1WS1xWuy5h5jWyhi2ubp6S9iONm0dSQ0R6DUkn3SSgLm3I3LxmAJMDNt1YLJJXi4Oi6sk2ue2AzXa1100A3cFEPKHyFy2wbk7fcSWK3VdPcaMQGGSStke0bU8bD2pJB3OK2LwPhrrWtMtv9H79fOcndN1ReKzqiZurWjYa7QaMGzqBpxJPSqcxcJWzHWDa/Ct4lqoqGuDBK+me1sg2JGvGhcCBvaOjggIstHJkykntVJNNZq50skDHPIuMu8loJ6e6vVmvar5hC+Zb3jBmDa7EtFhmmraLqSCYc4xskEccWrnAu4MOrtDw0PqgplpYWU1LFTxklkTAxuvHQDRY3j7BwxcyjacU4osPUpedbLcTSmXa2fV9qdrTZ3dzU91ARyc4MzNfsA4i+Xt+jUdconMPG2I8tZbXecp7zhqlfW0zjX1FUJGMIkBA2Qwbydw3qYuw0z8KWaP5xu8xdU+Rllr3QR33GmPL/QxTsmdb7peefppi0ggPaWbxqO6EBKyxfNyrqaDKnF1dRTyU9VT2SslhljcQ6N7YHlrgRwIIBWULxX+10d8sVfZbgxz6OvppKWoa12hMcjS1wB6NxKAhDC3Juyuu+GbXdrpQ3Sur62jiqamoluMm1LI9gc5x0IG8kq5DkvZPgg+gtcdD03CXyq6UmSNJR0sVJR5lZmU1NCwRxQxYgLGRsA0DWgM0AA3LtGTehGmamaO7gOuDX/0IC6ZJ2e3YWwPPa6LGrMUUFHVzBlUZmvFKwAfWCQ9wGwB3Rx4Ba45i5m4FzexjPTYkxdJhvCVmjkFrEcc5nrapzdG1BDGODWsI3bQ2tDu9U7TYnsR4bjy/6x6SuvNHaZZ3T1xgqWiavc46uE0hYSQdBrs7OoAHDULO7fR0tvoKegooI4KWmibDDEwaNYxoAa0eAAAICG+TBnBBj22y4XuczZcQ2eLZfUxF7oq+FhDBO1zu2B3t1DgCdrUfbBvXesH1eJ8/MT1dsxVecOXO22q2Ppp6F7TG8udUaiaJw2ZG9oNx8PdIUi44wLasV3Ky3aesuNsutkqDPQ11vmbHKzaAD2Haa5rmOAAc0g6gacCQblQYdoaLFd0xLE+c1tzp6ennDnDYDYdvY2RpqD9cdrvPQgMC7IOKMEFtPmlYQaHXRuI7LG6WjDR0zxf5SE6aanRzSTu4K05h3O3XjPPJi5Wq401bRyy3fYlp5RIx/wDJ2cCD0EEHuHjopoqIYqiCSCoiZLDI0skje0Oa5pGhBB3EEdCje25H4AtOYtDjiyUFRaa+jdI9lNSSBtK5z2OY4mMg7O53BpaNw3IDLZsIYffhO44XbQCK2XJkzKtjHu25TNrzjnPJLi52p1cSSoixPyacpaHDVzrqez17Z6eimlY70QkPbNYSDoTpxHuKe15rpRxXG2VVvnLxDVQvhkLDo4Nc0g6Hu6FAay5C5AZaYtyjsGIr5a6ya41sL3TvZWyMBIle0dqCANwC2Dy/wfY8C4biw9h2CWC3xSPkYySZ0hBcdTvcdeKry/wtbsE4Pt+F7TJUy0VAxzInVDmmQgvc47RaGg73HoV9QBam4iwjhDEOauO6rEOXGNMT1Ed5EcdVZ3DmWN6nhPNu1kZ2wJJ6dxC2yVow9h6gsddeqyjfO6S8V3V1SJHggSc2yPtd24aRt3HXfr7iA1i7GWWHDsFZqnTd6pn/ADCz3IrBmC7Djd1dYMssb4aqzSSMNZdy0wFpLdWbpX9sdARu6DvU7oRqCASPCEBCPKizfp8DW2LCVqqo4MQ3mLZFVLttjt1O8lhqCWAuLho7ZDdSNNrQ6AOiTLPMzAeUGLaW34exZNiTCd4p4RdXGKcS0VawbLqhrHtaObeCCQ3ad2v9FoOz+BcCWnCVfebnT1dxuV0vU7Zq+uuErXzS7I0Y3tWta1rdXaAAaa6cAAMhulvo7pbaq219OyopKqF8E8ThufG4FrmnwEEhAWzGuGbLjfClTh+9xvqLZWhjpGxTFhcGua9ujmnXTVo4cQoFzj5POWOHMrsRX2z2qshr6GifPTvdXSODXDh2pJBHg0Uw23Lqlt2X8uCqHFOKaeiLwaaqirmsq6Rgc1wiilDAQzcRo7aOjiNdNAMaueRdBc7dPbrjmPmVWUdQ3Zmgnv3OMkb7FzXMII8BQGJ5fcnDKi84Cw9d620VslTXWumqZnC4SgF74mucdAQOJKyuosFtwvmvlbh2zRSRW+htl4ZBG55cWjZp95JOp9Ue7xXZRZI0lFRw0dJmXmbT08EYihiixAWsjYBo1rQGaAAAAAdxXbEuVFpv1Dh6KqxJiuGusHO9R3SC57Na4SabYfIWna12WjgNw0QEgoouOTTCSeyjmiPB1xu8xVwZPNhnZKMz8zn7Dgdl+IXOadDroRsbwUBJyIiA/9k=" alt="Kassel Security" class="logo-img"/>
-    <div class="logo-sub">PANEL OPERATIVO · v1.4</div>
+    <img src="data:image/png;base64,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iICHuUHkfHm3X2qsfiV9ndbopI2tFEJw/aIOvq26cFF7uRjSk6jMOb37QPpltiiA1N9JjTfhEl+aB9MnpMab8IkvzQPpltkiA1N9JjTfhEl+aB9Mp1yKy4jytwU/DUd3ddQ+skqufNPzPqmtGzs7TuGzx16VnqIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCwbNrLyDHtJRNFxNtqqRziycQmTVrgNWkbTe4Dx3LOUWOrShVi4TWaZYtbqtaVVWoy5MluZALuTlKddMbH5s/iqg8m+Q/dufmz+KtgUVbydbdg3P8AuvF/TPuj9jXs8muQ/du75s/irg8mlx+7c/Nh+mWwqL6sPtl+w+/7sxj077o/YizKPKSfAGIJ7m3FDrhFPTGCSn6jMQJ2mkO15x28aHo6SpTRFZp04048mKyRp729r31V1riXKk+Pu9wREUyqEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAYTnxcq+0ZO4pudrq5qOtpre+SGeJ+y+Nw03g9BUY8iHFWJMV4TxDU4kvdbdpoK9kcT6qYyOY3m9SBqdwUh8pD7BOMfyZJ/gtKckM5cX5Z2S42/Ddjt1xiq6ls0r6mGV5Y4N00Gw5vEDp8KA+i6LSw8q7NIOI6zLHuOh/klTx+MT01+afeZY/kdT9IgN01A3LJzNrMEYLpLLYLg+jvt2mBbLC/ZlggYdXPBB1aXODWg6EEbfcUSjlXZpn7i7H8jqfpFH9yxbeM6M7sMMxrzFDFUVlNQmngjcyOOEyjUNDi47TyTvOu8joGgA3K5NMOJOxBabliu7V1zud0aa4yVU/OubFIBzTQegbAa7ToLjrv1CklUQRRwQRwQsbHFG0MYxo0DQBoAFRXVVNQ0c1bW1EVNTQRukmmleGsjY0alzidwAG/VAWvHGJ7Tg3ClfiW9yvj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" class="logo-img" alt="KS"/>
+    <div class="logo-sub">PANEL OPERATIVO · v1.5</div>
   </div>
-  <div class="mode-tabs">
-    <button class="mode-btn active" onclick="setView('situaciones',this)">Por situación</button>
-    <button class="mode-btn" onclick="setView('sops',this)">Por SOP</button>
+  <div class="tabs">
+    <button class="tab active" onclick="setView('sit',this)">Por situación</button>
+    <button class="tab" onclick="setView('sop',this)">Por SOP</button>
   </div>
-  <div class="header-right">
-    <button class="fs-btn" onclick="toggleFS()" id="fs-btn">
+  <div class="hdr-r">
+    <button class="fs-btn" id="fsb" onclick="toggleFS()">
       <svg viewBox="0 0 16 16" fill="none"><path d="M1 6V2h4M15 6V2h-4M1 10v4h4M15 10v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>Pantalla completa</span>
     </button>
-    <div class="header-clock" id="clock">--:--:--</div>
+    <div class="clock" id="clk">--:--:--</div>
   </div>
 </header>
 
-<!-- SEARCH BAR (situaciones) -->
-<div class="search-bar" id="search-bar">
-  <span class="search-icon" style="top:56%;left:56px">
-    <svg width="17" height="17" viewBox="0 0 20 20" fill="none">
+<!-- SEARCH -->
+<div class="sbar" id="sbar">
+  <span class="sbar-icon" style="left:46px">
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="none">
       <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8"/>
       <path d="M14 14l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </svg>
   </span>
-  <input class="search-input" id="search-input" type="text"
-    placeholder="¿Qué está ocurriendo? Ej: intrusión, cámara caída, emergencia, puerta..."
-    oninput="filterRows()"/>
-  <button class="search-clear" id="search-clear" onclick="clearSearch()">
-    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-      <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
+  <input class="sinput" id="sin" type="text" placeholder="¿Qué está ocurriendo? Ej: intrusión, cámara, emergencia..." oninput="filt()"/>
+  <button class="sclear" id="scl" onclick="clearS()">
+    <svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
   </button>
 </div>
 
-<!-- VIEW: SITUACIONES — 4 COLUMN GRID -->
-<div id="view-situaciones" class="view active">
-  <div class="sit-columns" id="sit-columns">
+<!-- VIEW: SITUACIONES -->
+<div id="view-sit" class="view active">
+  <div class="cols" id="cols">
 
-    <!-- COL 1: SEGURIDAD -->
-    <div class="sit-col" id="col-seguridad">
-      <div class="col-header" style="--cat-color:#e05555">
-        <span class="col-dot"></span>
-        <span class="col-title">Seguridad</span>
-        <span class="col-count" id="cnt-seguridad">5</span>
+    <!-- COL SEGURIDAD -->
+    <div class="col">
+      <div class="chdr" style="--cc:#e05555">
+        <span class="cdot"></span>
+        <span class="ctitle">Seguridad</span>
+        <span class="ccnt" id="cnt-seg">5</span>
       </div>
-
-      <div class="sit-row" data-col="seguridad" data-keywords="intrusión intruso persona sospechosa merodeo vandalismo sabotaje analítica conducta" onclick="openModal('intrusion')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" stroke="#e05555" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#e05555" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Intrusión o conducta sospechosa</div><div class="sop-refs"><span class="sop-tag tag-02">SOP-02</span><span class="sop-tag tag-06">SOP-06</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="seguridad" data-keywords="violencia agresión amenaza pelea paquete sospechoso arma bomba" onclick="openModal('violencia')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0Z" stroke="#e05555" stroke-width="1.7" stroke-linejoin="round"/><line x1="12" y1="9" x2="12" y2="13" stroke="#e05555" stroke-width="1.7" stroke-linecap="round"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="#e05555" stroke-width="2.2" stroke-linecap="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Violencia, amenaza o paquete sospechoso</div><div class="sop-refs"><span class="sop-tag tag-09">SOP-09</span><span class="sop-tag tag-02">SOP-02</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="seguridad" data-keywords="acceso ingreso apertura puerta portón visita proveedor delivery técnico" onclick="openModal('acceso')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2.5" stroke="#3dcf8a" stroke-width="1.7"/><path d="M15 3v18" stroke="#3dcf8a" stroke-width="1.7" stroke-linecap="round"/><circle cx="13" cy="12" r="1.3" fill="#3dcf8a"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Solicitud de acceso o ingreso</div><div class="sop-refs"><span class="sop-tag tag-04">SOP-04</span><span class="sop-tag tag-05">SOP-05</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="seguridad" data-keywords="puerta abierta forzada no cierra sin retorno bloqueada" onclick="openModal('puerta-forzada')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2.5" stroke="#f0b040" stroke-width="1.7"/><path d="M15 3v18M11 9l-3 3 3 3" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Puerta abierta, forzada o sin retorno</div><div class="sop-refs"><span class="sop-tag tag-05">SOP-05</span><span class="sop-tag tag-03">SOP-03</span><span class="sop-tag tag-02">SOP-02</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="seguridad" data-keywords="acceso indebido credenciales pérdida filtración fuga datos información contraseña" onclick="openModal('ciber')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="#a87af5" stroke-width="1.7"/><path d="M8 11V7a4 4 0 018 0v4" stroke="#a87af5" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16" r="1.3" fill="#a87af5"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Incidente de seguridad de la información</div><div class="sop-refs"><span class="sop-tag tag-08">SOP-08</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="citems" id="ci-seg">
+        <div class="card" data-g="seg" data-k="intrusión intruso sospechosa merodeo vandalismo analítica conducta" onclick="openM('intrusion')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" stroke="#e05555" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#e05555" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cbody"><div class="cname">Intrusión o conducta sospechosa</div><div class="ctags"><span class="stag t02">SOP-02</span><span class="stag t06">SOP-06</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="seg" data-k="violencia agresión amenaza pelea paquete sospechoso arma bomba" onclick="openM('violencia')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0Z" stroke="#e05555" stroke-width="1.8" stroke-linejoin="round"/><line x1="12" y1="9" x2="12" y2="13" stroke="#e05555" stroke-width="1.8" stroke-linecap="round"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="#e05555" stroke-width="2.2" stroke-linecap="round"/></svg></div>
+          <div class="cbody"><div class="cname">Violencia, amenaza o paquete sospechoso</div><div class="ctags"><span class="stag t09">SOP-09</span><span class="stag t02">SOP-02</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="seg" data-k="acceso ingreso apertura portón visita proveedor delivery" onclick="openM('acceso')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#3dcf8a" stroke-width="1.8"/><path d="M15 3v18" stroke="#3dcf8a" stroke-width="1.8" stroke-linecap="round"/><circle cx="13" cy="12" r="1.3" fill="#3dcf8a"/></svg></div>
+          <div class="cbody"><div class="cname">Solicitud de acceso o ingreso</div><div class="ctags"><span class="stag t04">SOP-04</span><span class="stag t05">SOP-05</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="seg" data-k="puerta abierta forzada sin retorno bloqueada" onclick="openM('puerta-forzada')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#f0b040" stroke-width="1.8"/><path d="M15 3v18M11 9l-3 3 3 3" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cbody"><div class="cname">Puerta abierta, forzada o sin retorno</div><div class="ctags"><span class="stag t05">SOP-05</span><span class="stag t03">SOP-03</span><span class="stag t02">SOP-02</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="seg" data-k="credenciales pérdida filtración fuga datos contraseña ciberseguridad" onclick="openM('ciber')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="10" rx="2" stroke="#a87af5" stroke-width="1.8"/><path d="M8 11V7a4 4 0 018 0v4" stroke="#a87af5" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16" r="1.3" fill="#a87af5"/></svg></div>
+          <div class="cbody"><div class="cname">Incidente de seguridad de la información</div><div class="ctags"><span class="stag t08">SOP-08</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
     </div>
 
-    <!-- COL 2: FALLAS TÉCNICAS -->
-    <div class="sit-col" id="col-tecnico">
-      <div class="col-header" style="--cat-color:#f0b040">
-        <span class="col-dot"></span>
-        <span class="col-title">Fallas técnicas</span>
-        <span class="col-count" id="cnt-tecnico">5</span>
+    <!-- COL FALLAS TÉCNICAS -->
+    <div class="col">
+      <div class="chdr" style="--cc:#f0b040">
+        <span class="cdot"></span>
+        <span class="ctitle">Fallas técnicas</span>
+        <span class="ccnt" id="cnt-tec">5</span>
       </div>
-
-      <div class="sit-row" data-col="tecnico" data-keywords="cámara caída offline sin imagen señal video NVR VMS grabador" onclick="openModal('camara-caida')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M23 7l-7 5 7 5V7Z" stroke="#f0b040" stroke-width="1.7" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2" stroke="#f0b040" stroke-width="1.7"/><line x1="1" y1="1" x2="23" y2="23" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Cámara(s) sin imagen o caída</div><div class="sop-refs"><span class="sop-tag tag-03">SOP-03</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="tecnico" data-keywords="internet red conectividad caída offline sin conexión enlace wan" onclick="openModal('red-caida')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#f0b040" stroke-width="1.7"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/><line x1="4" y1="4" x2="20" y2="20" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Caída de red o internet</div><div class="sop-refs"><span class="sop-tag tag-03">SOP-03</span><span class="sop-tag tag-07">SOP-07</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="tecnico" data-keywords="audio intercom citófono sin audio falla sonido voceo parlante micrófono" onclick="openModal('audio-falla')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><line x1="1" y1="1" x2="23" y2="23" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/><path d="M9 9v3a3 3 0 005.12 2.12M15 9.34V5a3 3 0 00-5.94-.6" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/><path d="M17 16.95A7 7 0 015 12v-2m14 0v2a7 7 0 01-.11 1.23M12 19v3M8 23h8" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Falla de audio o intercom</div><div class="sop-refs"><span class="sop-tag tag-03">SOP-03</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="tecnico" data-keywords="apertura remota no abre falla cerradura electromagnética acceso hardware" onclick="openModal('falla-apertura')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#f0b040" stroke-width="1.7"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/><line x1="1" y1="1" x2="23" y2="23" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Falla en sistema de apertura remota</div><div class="sop-refs"><span class="sop-tag tag-03">SOP-03</span><span class="sop-tag tag-05">SOP-05</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="tecnico" data-keywords="plataforma caída sistema software VMS reinicio servidor cuelgue lento" onclick="openModal('plataforma-caida')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#f0b040" stroke-width="1.7"/><path d="M8 21h8M12 17v4" stroke="#f0b040" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Plataforma o software caído</div><div class="sop-refs"><span class="sop-tag tag-03">SOP-03</span><span class="sop-tag tag-07">SOP-07</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="citems" id="ci-tec">
+        <div class="card" data-g="tec" data-k="cámara caída offline sin imagen señal NVR VMS grabador" onclick="openM('camara-caida')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M23 7l-7 5 7 5V7Z" stroke="#f0b040" stroke-width="1.8" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2" stroke="#f0b040" stroke-width="1.8"/><line x1="1" y1="1" x2="23" y2="23" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="cbody"><div class="cname">Cámara(s) sin imagen o caída</div><div class="ctags"><span class="stag t03">SOP-03</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="tec" data-k="internet red conectividad caída offline sin conexión wan" onclick="openM('red-caida')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#f0b040" stroke-width="1.8"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/><line x1="4" y1="4" x2="20" y2="20" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="cbody"><div class="cname">Caída de red o internet</div><div class="ctags"><span class="stag t03">SOP-03</span><span class="stag t07">SOP-07</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="tec" data-k="audio intercom citófono sin audio falla sonido voceo parlante" onclick="openM('audio-falla')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><line x1="1" y1="1" x2="23" y2="23" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/><path d="M9 9v3a3 3 0 005.12 2.12M15 9.34V5a3 3 0 00-5.94-.6" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/><path d="M17 16.95A7 7 0 015 12v-2m14 0v2a7 7 0 01-.11 1.23M12 19v3M8 23h8" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="cbody"><div class="cname">Falla de audio o intercom</div><div class="ctags"><span class="stag t03">SOP-03</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="tec" data-k="apertura remota no abre falla cerradura electromagnética hardware" onclick="openM('falla-apertura')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="#f0b040" stroke-width="1.8"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14M15.54 8.46a5 5 0 010 7.07M8.46 8.46a5 5 0 000 7.07" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/><line x1="1" y1="1" x2="23" y2="23" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="cbody"><div class="cname">Falla en sistema de apertura remota</div><div class="ctags"><span class="stag t03">SOP-03</span><span class="stag t05">SOP-05</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="tec" data-k="plataforma caída sistema software VMS reinicio servidor cuelgue" onclick="openM('plataforma-caida')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#f0b040" stroke-width="1.8"/><path d="M8 21h8M12 17v4" stroke="#f0b040" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="cbody"><div class="cname">Plataforma o software caído</div><div class="ctags"><span class="stag t03">SOP-03</span><span class="stag t07">SOP-07</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
     </div>
 
-    <!-- COL 3: GESTIÓN DE TURNO -->
-    <div class="sit-col" id="col-turno">
-      <div class="col-header" style="--cat-color:#4da8ff">
-        <span class="col-dot"></span>
-        <span class="col-title">Gestión de turno</span>
-        <span class="col-count" id="cnt-turno">4</span>
+    <!-- COL GESTIÓN TURNO -->
+    <div class="col">
+      <div class="chdr" style="--cc:#4da8ff">
+        <span class="cdot"></span>
+        <span class="ctitle">Gestión de turno</span>
+        <span class="ccnt" id="cnt-tur">4</span>
       </div>
-
-      <div class="sit-row" data-col="turno" data-keywords="inicio turno entrada relevo empezar arrancar checklist" onclick="openModal('inicio-turno')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4da8ff" stroke-width="1.7"/><polygon points="10,8 16,12 10,16" fill="#4da8ff"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Inicio de turno</div><div class="sop-refs"><span class="sop-tag tag-01">SOP-01</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="turno" data-keywords="cierre turno entrega relevo terminar salida cambio traspaso" onclick="openModal('cierre-turno')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4da8ff" stroke-width="1.7"/><rect x="8" y="8" width="8" height="8" rx="1" fill="#4da8ff"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Cierre y entrega de turno</div><div class="sop-refs"><span class="sop-tag tag-01">SOP-01</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="turno" data-keywords="operador no llega falta ausente solo sin relevo no se presentó" onclick="openModal('sin-operador')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="#ff7d42" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="#ff7d42" stroke-width="1.7"/><line x1="18" y1="8" x2="22" y2="8" stroke="#ff7d42" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Operador no llega / ausencia imprevista</div><div class="sop-refs"><span class="sop-tag tag-07">SOP-07</span><span class="sop-tag tag-01">SOP-01</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="turno" data-keywords="evidencia video clip captura respaldo informe reporte solicitud mandante" onclick="openModal('evidencia')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8L14 2Z" stroke="#4da8ff" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 2v6h6M9 15l2 2 4-4" stroke="#4da8ff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Solicitud de evidencia o informe</div><div class="sop-refs"><span class="sop-tag tag-06">SOP-06</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="citems" id="ci-tur">
+        <div class="card" data-g="tur" data-k="inicio turno entrada relevo empezar checklist" onclick="openM('inicio-turno')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4da8ff" stroke-width="1.8"/><polygon points="10,8 16,12 10,16" fill="#4da8ff"/></svg></div>
+          <div class="cbody"><div class="cname">Inicio de turno</div><div class="ctags"><span class="stag t01">SOP-01</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="tur" data-k="cierre turno entrega relevo terminar salida traspaso" onclick="openM('cierre-turno')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#4da8ff" stroke-width="1.8"/><rect x="8" y="8" width="8" height="8" rx="1" fill="#4da8ff"/></svg></div>
+          <div class="cbody"><div class="cname">Cierre y entrega de turno</div><div class="ctags"><span class="stag t01">SOP-01</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="tur" data-k="operador no llega falta ausente sin relevo no se presentó" onclick="openM('sin-operador')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="#ff7d42" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke="#ff7d42" stroke-width="1.8"/><line x1="18" y1="8" x2="22" y2="8" stroke="#ff7d42" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="cbody"><div class="cname">Operador no llega / ausencia imprevista</div><div class="ctags"><span class="stag t07">SOP-07</span><span class="stag t01">SOP-01</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="tur" data-k="evidencia video clip captura respaldo informe reporte solicitud" onclick="openM('evidencia')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8L14 2Z" stroke="#4da8ff" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2v6h6M9 15l2 2 4-4" stroke="#4da8ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="cbody"><div class="cname">Solicitud de evidencia o informe</div><div class="ctags"><span class="stag t06">SOP-06</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
     </div>
 
-    <!-- COL 4: EMERGENCIAS -->
-    <div class="sit-col" id="col-emergencia">
-      <div class="col-header" style="--cat-color:#e05555">
-        <span class="col-dot"></span>
-        <span class="col-title">Emergencias</span>
-        <span class="col-count" id="cnt-emergencia">3</span>
+    <!-- COL EMERGENCIAS -->
+    <div class="col">
+      <div class="chdr" style="--cc:#e05555">
+        <span class="cdot"></span>
+        <span class="ctitle">Emergencias</span>
+        <span class="ccnt" id="cnt-eme">3</span>
       </div>
-
-      <div class="sit-row" data-col="emergencia" data-keywords="incendio fuego humo llamas bomberos" onclick="openModal('incendio')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 22c4.418 0 8-3.134 8-7 0-1.696-.608-3.247-1.625-4.468C17.258 9.3 16 8.25 16 7c0 2-2 3-2 3S9 7 9 4C6.5 5.5 4 8 4 15c0 3.866 3.582 7 8 7Z" stroke="#e05555" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 22c2.21 0 4-1.567 4-3.5S14 15 12 14c0 1-1 2-1 2s-3-1.5-3-4C6.5 13.5 8 18.5 12 22Z" stroke="#f0b040" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Incendio</div><div class="sop-refs"><span class="sop-tag tag-09">SOP-09</span><span class="sop-tag tag-06">SOP-06</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="emergencia" data-keywords="emergencia médica accidente desmayo persona caída herido SAMU ambulancia" onclick="openModal('medica')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#e05555" stroke-width="1.7"/><path d="M12 9v6M9 12h6" stroke="#e05555" stroke-width="1.7" stroke-linecap="round"/><path d="M7 6V5a2 2 0 012-2h6a2 2 0 012 2v1" stroke="#e05555" stroke-width="1.7" stroke-linecap="round"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Emergencia médica</div><div class="sop-refs"><span class="sop-tag tag-09">SOP-09</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-
-      <div class="sit-row" data-col="emergencia" data-keywords="evacuación evacuar confinamiento protocolo emergencia alarma sismo" onclick="openModal('evacuacion')">
-        <div class="sit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 17l7-7 7 7" stroke="#e05555" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 11l7-7 7 7" stroke="#e05555" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/></svg></div>
-        <div class="sit-body"><div class="sit-name">Evacuación o confinamiento</div><div class="sop-refs"><span class="sop-tag tag-09">SOP-09</span></div></div>
-        <div class="sit-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="citems" id="ci-eme">
+        <div class="card" data-g="eme" data-k="incendio fuego humo llamas bomberos" onclick="openM('incendio')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 22c4.418 0 8-3.134 8-7 0-1.696-.608-3.247-1.625-4.468C17.258 9.3 16 8.25 16 7c0 2-2 3-2 3S9 7 9 4C6.5 5.5 4 8 4 15c0 3.866 3.582 7 8 7Z" stroke="#e05555" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 22c2.21 0 4-1.567 4-3.5S14 15 12 14c0 1-1 2-1 2s-3-1.5-3-4C6.5 13.5 8 18.5 12 22Z" stroke="#f0b040" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+          <div class="cbody"><div class="cname">Incendio</div><div class="ctags"><span class="stag t09">SOP-09</span><span class="stag t06">SOP-06</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="eme" data-k="emergencia médica accidente desmayo caída herido SAMU ambulancia" onclick="openM('medica')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="#e05555" stroke-width="1.8"/><path d="M12 9v6M9 12h6" stroke="#e05555" stroke-width="1.8" stroke-linecap="round"/><path d="M7 6V5a2 2 0 012-2h6a2 2 0 012 2v1" stroke="#e05555" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <div class="cbody"><div class="cname">Emergencia médica</div><div class="ctags"><span class="stag t09">SOP-09</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
+        <div class="card" data-g="eme" data-k="evacuación evacuar confinamiento protocolo alarma sismo" onclick="openM('evacuacion')">
+          <div class="cico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M5 17l7-7 7 7" stroke="#e05555" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 11l7-7 7 7" stroke="#e05555" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/></svg></div>
+          <div class="cbody"><div class="cname">Evacuación o confinamiento</div><div class="ctags"><span class="stag t09">SOP-09</span></div></div>
+          <div class="carw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </div>
       </div>
     </div>
 
-  </div><!-- /sit-columns -->
-  <div id="no-results" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text3);pointer-events:none;z-index:5;">Sin resultados</div>
+  </div>
+  <div id="no-res">Sin resultados · intenta otra palabra clave</div>
 </div>
 
 <!-- VIEW: SOPs -->
-<div id="view-sops" class="view">
-  <div class="sop-list-wrap">
-    <div class="sop-row" onclick="openModal('sop-full-01')"><div class="sop-num-col"><span class="sop-num-tag tag-01">KS-SOP-01</span></div><div class="sop-body"><div class="sop-name">Operación general y entrega de turno</div><div class="sop-scope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <div class="sop-row" onclick="openModal('sop-full-02')"><div class="sop-num-col"><span class="sop-num-tag tag-02">KS-SOP-02</span></div><div class="sop-body"><div class="sop-name">Gestión de intrusión y conducta sospechosa</div><div class="sop-scope">CCTV · Conserjería virtual con video</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <div class="sop-row" onclick="openModal('sop-full-03')"><div class="sop-num-col"><span class="sop-num-tag tag-03">KS-SOP-03</span></div><div class="sop-body"><div class="sop-name">Fallas técnicas y degradación del servicio</div><div class="sop-scope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <div class="sop-row" onclick="openModal('sop-full-04')"><div class="sop-num-col"><span class="sop-num-tag tag-04">KS-SOP-04</span></div><div class="sop-body"><div class="sop-name">Conserjería virtual: atención y autorización</div><div class="sop-scope">Conserjería virtual · Acceso asistido remoto</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <div class="sop-row" onclick="openModal('sop-full-05')"><div class="sop-num-col"><span class="sop-num-tag tag-05">KS-SOP-05</span></div><div class="sop-body"><div class="sop-name">Control de acceso remoto y aperturas</div><div class="sop-scope">Control de acceso remoto · Conserjería virtual</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <div class="sop-row" onclick="openModal('sop-full-06')"><div class="sop-num-col"><span class="sop-num-tag tag-06">KS-SOP-06</span></div><div class="sop-body"><div class="sop-name">Evidencias, respaldo e informes</div><div class="sop-scope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <div class="sop-row" onclick="openModal('sop-full-07')"><div class="sop-num-col"><span class="sop-num-tag tag-07">KS-SOP-07</span></div><div class="sop-body"><div class="sop-name">Continuidad operacional y contingencia</div><div class="sop-scope">Central de monitoreo</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <div class="sop-row" onclick="openModal('sop-full-08')"><div class="sop-num-col"><span class="sop-num-tag tag-08">KS-SOP-08</span></div><div class="sop-body"><div class="sop-name">Confidencialidad, privacidad y ciberseguridad</div><div class="sop-scope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-    <div class="sop-row" onclick="openModal('sop-full-09')"><div class="sop-num-col"><span class="sop-num-tag tag-09">KS-SOP-09</span></div><div class="sop-body"><div class="sop-name">Emergencias y escalamiento extraordinario</div><div class="sop-scope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sop-arrow"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+<div id="view-sop" class="view">
+  <div class="sop-wrap">
+    <div class="srow" onclick="openM('sop-full-01')"><div class="snum"><span class="snumtag t01">KS-SOP-01</span></div><div class="sbody"><div class="sname">Operación general y entrega de turno</div><div class="sscope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="srow" onclick="openM('sop-full-02')"><div class="snum"><span class="snumtag t02">KS-SOP-02</span></div><div class="sbody"><div class="sname">Gestión de intrusión y conducta sospechosa</div><div class="sscope">CCTV · Conserjería virtual con video</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="srow" onclick="openM('sop-full-03')"><div class="snum"><span class="snumtag t03">KS-SOP-03</span></div><div class="sbody"><div class="sname">Fallas técnicas y degradación del servicio</div><div class="sscope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="srow" onclick="openM('sop-full-04')"><div class="snum"><span class="snumtag t04">KS-SOP-04</span></div><div class="sbody"><div class="sname">Conserjería virtual: atención y autorización</div><div class="sscope">Conserjería virtual · Acceso asistido remoto</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="srow" onclick="openM('sop-full-05')"><div class="snum"><span class="snumtag t05">KS-SOP-05</span></div><div class="sbody"><div class="sname">Control de acceso remoto y aperturas</div><div class="sscope">Control de acceso remoto · Conserjería virtual</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="srow" onclick="openM('sop-full-06')"><div class="snum"><span class="snumtag t06">KS-SOP-06</span></div><div class="sbody"><div class="sname">Evidencias, respaldo e informes</div><div class="sscope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="srow" onclick="openM('sop-full-07')"><div class="snum"><span class="snumtag t07">KS-SOP-07</span></div><div class="sbody"><div class="sname">Continuidad operacional y contingencia</div><div class="sscope">Central de monitoreo</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="srow" onclick="openM('sop-full-08')"><div class="snum"><span class="snumtag t08">KS-SOP-08</span></div><div class="sbody"><div class="sname">Confidencialidad, privacidad y ciberseguridad</div><div class="sscope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+    <div class="srow" onclick="openM('sop-full-09')"><div class="snum"><span class="snumtag t09">KS-SOP-09</span></div><div class="sbody"><div class="sname">Emergencias y escalamiento extraordinario</div><div class="sscope">CCTV · Conserjería virtual · Acceso remoto</div></div><div class="sarw"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
   </div>
 </div>
 
-<footer class="footer">
-  <span>KASSEL SECURITY SpA · PANEL OPERATIVO v1.4</span>
-  <span id="footer-date"></span>
+<footer class="ftr">
+  <span>KASSEL SECURITY SpA · PANEL OPERATIVO v1.5</span>
+  <span id="fdate"></span>
 </footer>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
-  <div class="modal" id="modal-content"></div>
+<div class="mover" id="mover" onclick="closeM(event)">
+  <div class="modal" id="mcont"></div>
 </div>
-
 <script>
 function tick(){
   const n=new Date(),p=v=>String(v).padStart(2,'0');
-  document.getElementById('clock').textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
-  const days=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],months=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  const el=document.getElementById('footer-date');
-  if(el) el.textContent=days[n.getDay()]+' '+n.getDate()+' '+months[n.getMonth()]+' '+n.getFullYear();
+  document.getElementById('clk').textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
+  const dy=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],mo=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const el=document.getElementById('fdate');
+  if(el) el.textContent=dy[n.getDay()]+' '+n.getDate()+' '+mo[n.getMonth()]+' '+n.getFullYear();
 }
-tick(); setInterval(tick,1000);
+tick();setInterval(tick,1000);
 
-const MODALS={
-'intrusion':{emoji:'🚨',title:'Intrusión o conducta sospechosa',sops:['SOP-02','SOP-06'],alert:{type:'m-danger',text:'⚑ No esperes confirmación perfecta si la probabilidad es alta. Toda acción remota debe ser proporcional y trazable.'},steps:{color:'sn-r',items:['Abrir cámara gatillante + al menos una cámara de contexto.','Clasificar: no confirmado / sospechoso / confirmado / crítico / falso positivo.','Descartar causas habituales: fauna, clima, reflejos, personal autorizado.','Ejecutar disuasión habilitada (voceo, sirena o baliza) según script autorizado.','Notificar al supervisor si el evento es confirmado, persistente o crítico.','Contactar al mandante: lugar, hora, personas, conducta, acciones ejecutadas.','Llamar a autoridades si el protocolo del sitio lo exige.','Mantener seguimiento visual. Registrar cambios relevantes.','Respaldar clips y capturas. Cerrar solo cuando la amenaza cesó o fue transferida.']},records:['Bitácora del evento','Registro de disuasiones activadas','Hora de llamados','Clip o captura relevante','Informe preliminar e informe final']},
-'violencia':{emoji:'⚠️',title:'Violencia, amenaza o paquete sospechoso',sops:['SOP-09','SOP-02'],alert:{type:'m-danger',text:'⚑ Vida e integridad primero. No compitas con el mando del sitio ni con autoridades externas.'},steps:{color:'sn-r',items:['Confirma el evento sin retrasar irracionalmente el escalamiento.','Avisa al mandante: hecho observado, ubicación, hora, acciones ya ejecutadas.','Llama a Carabineros / PDI si la situación lo amerita.','Para paquete sospechoso: NO manipular. Llamar a GOPE. Alejar personas.','Usa medios remotos habilitados solo si son útiles y autorizados.','Registra: detección, aviso al mandante, llamado externo, evolución visible.','Cierra solo cuando el evento fue transferido, contenido o finalizado.']},records:['Bitácora de emergencia','Registro de contactos críticos y hora de llamados','Informe preliminar y final']},
-'acceso':{emoji:'🚪',title:'Solicitud de acceso o ingreso',sops:['SOP-04','SOP-05'],alert:{type:'m-success',text:'⚑ Sin validación no hay apertura. Los criterios los define el mandante, no el operador.'},steps:{color:'sn-g',items:['Responde con script corporativo. Confirma el punto de acceso.','Solicita datos mínimos: nombre, destino, residente que autoriza, empresa, patente.','Contrasta con lista de autorizados, agenda o instrucción vigente del mandante.','No puedes validar → No autorices. Escala según la matriz del sitio.','Si autorizas → confirma identidad antes de abrir.','Ejecuta la apertura una sola vez. Verifica que la puerta retornó a estado normal.','Registra: quién autorizó, hora, medio y observaciones.']},records:['Bitácora de acceso','Soporte de autorización','Registro de apertura con identidad validada']},
-'puerta-forzada':{emoji:'🔓',title:'Puerta abierta, forzada o sin retorno',sops:['SOP-05','SOP-03','SOP-02'],alert:{type:'m-warning',text:'⚑ Puerta forzada = incidencia técnica + posible evento de seguridad. Activa ambos en paralelo.'},steps:{color:'sn-a',items:['Registra de inmediato: hora, acceso afectado, estado observado.','Activa SOP-03 + SOP-02 en paralelo.','Avisa al supervisor y al mandante.','Verifica por video si hay contexto sospechoso asociado.','Deriva a soporte técnico para corrección física.','No cierres hasta que la puerta retorne a estado normal.']},records:['Registro de puerta abierta/forzada','Bitácora técnica y de seguridad','Aviso al mandante y soporte técnico']},
-'ciber':{emoji:'🔐',title:'Incidente de seguridad de la información',sops:['SOP-08'],alert:{type:'m-info',text:'⚑ Reporta de inmediato. No esperes confirmar el alcance total para avisar al supervisor.'},steps:{color:'sn-b',items:['Detectas acceso indebido o fuga → para el uso del canal o credencial afectada.','Reporta inmediatamente al supervisor. No lo manejes solo.','Registra: qué ocurrió, hora, qué información pudo verse afectada.','El supervisor escala y activa alta/baja de usuarios si corresponde.','No compartas información sobre el incidente por canales no autorizados.']},records:['Acta de incidente de seguridad','Alta, cambio o baja del usuario afectado','Registro de accesos o logs']},
-'camara-caida':{emoji:'📷',title:'Cámara(s) sin imagen o caída',sops:['SOP-03'],alert:{type:'m-warning',text:'⚑ Caída técnica con contexto sospechoso: activa SOP-02 en paralelo.'},steps:{color:'sn-a',items:['Confirma si la falla es puntual o generalizada.','Revisa plataforma, estado de red, alarmas de equipo y antecedentes del turno anterior.','Contexto sospechoso → activa SOP-02.','Informa al supervisor. Clasifica criticidad: baja / media / alta / crítica.','Avisa al mandante si afecta cobertura o analíticas críticas.','Deriva a soporte técnico según la matriz del sitio.','Refuerza observación con cámaras disponibles. Registra mitigación temporal.','Cierra cuando se restableció la continuidad o la responsabilidad fue transferida.']},records:['Ticket de incidencia','Bitácora técnica','Aviso al mandante','Confirmación de restablecimiento']},
-'red-caida':{emoji:'🌐',title:'Caída de red o internet',sops:['SOP-03','SOP-07'],alert:{type:'m-warning',text:'⚑ Si afecta materialmente la cobertura, avisa al mandante y activa continuidad operacional (SOP-07).'},steps:{color:'sn-a',items:['Confirma si la caída es parcial o total.','Verifica antecedentes del turno anterior y estado de otras plataformas.','Informa al supervisor. Clasifica criticidad.','Activa SOP-07 si la falla compromete la capacidad operativa.','Contacta al mandante si afecta cobertura o tiempos de respuesta.','Deriva a soporte técnico o proveedor de red.','Documenta mitigación temporal aplicada.']},records:['Ticket de incidencia','Bitácora técnica y de contingencia','Avisos al mandante','Confirmación de restablecimiento']},
-'audio-falla':{emoji:'🔇',title:'Falla de audio o intercom',sops:['SOP-03'],alert:{type:'m-warning',text:'⚑ Sin audio/intercom operativo, la conserjería virtual queda limitada. Documenta la mitigación.'},steps:{color:'sn-a',items:['Confirma que la falla es de audio/intercom y no de conectividad general.','Informa al supervisor. Clasifica criticidad.','Avisa al mandante si afecta la atención de accesos.','Deriva a soporte técnico según la matriz del sitio.','Documenta la mitigación temporal.','Cierra cuando el servicio sea restablecido o la responsabilidad transferida.']},records:['Ticket de incidencia','Bitácora técnica','Aviso al mandante']},
-'falla-apertura':{emoji:'⚙️',title:'Falla en sistema de apertura remota',sops:['SOP-03','SOP-05'],alert:{type:'m-warning',text:'⚑ Si la puerta quedó forzada o abierta, activa también SOP-02.'},steps:{color:'sn-a',items:['Confirma el estado de la puerta: cerrada / abierta / forzada.','Si está abierta o forzada → activa SOP-05 + SOP-02 de inmediato.','Informa al supervisor. Avisa al mandante.','Deriva a soporte técnico para corrección de hardware/software.','No ejecutes aperturas sin respaldo de validación durante falla activa.','Registra la falla con hora de inicio y estado observado.']},records:['Ticket de incidencia técnica','Registro de estado de la puerta','Aviso al mandante','Confirmación de restablecimiento']},
-'plataforma-caida':{emoji:'💻',title:'Plataforma o software caído',sops:['SOP-03','SOP-07'],alert:{type:'m-orange',text:'⚑ Falla masiva activa continuidad operacional (SOP-07). No ocultes la indisponibilidad.'},steps:{color:'sn-a',items:['Confirma si la caída es local, de servidor o del servicio en la nube.','Informa al supervisor de inmediato.','Activa SOP-07: evalúa alcance, prioriza sitios críticos.','Avisa al mandante si la cobertura o capacidad de respuesta se ve afectada.','Deriva a soporte TI para recuperación técnica.','Registra: hora de inicio, medidas tomadas, hora de recuperación.']},records:['Bitácora de contingencia','Ticket de incidencia técnica','Avisos al mandante','Cierre con causa, impacto y aprendizaje']},
-'inicio-turno':{emoji:'▶️',title:'Inicio de turno',sops:['SOP-01'],alert:{type:'m-info',text:'⚑ Si no revisas bien al inicio, el turno entero opera con información incompleta.'},steps:{color:'sn-b',items:['Revisar plataforma: conectividad, cámaras críticas, analíticas, audio, intercom y accesos.','Leer la bitácora del turno anterior completa. Validar pendientes e incidentes en curso.','Confirmar disponibilidad de: lista de autorizados, matriz de contactos, protocolos del sitio.','Registrar degradaciones detectadas antes de iniciar formalmente.']},records:['Checklist de inicio de turno','Bitácora digital actualizada','Registro de degradaciones al inicio']},
-'cierre-turno':{emoji:'⏹️',title:'Cierre y entrega de turno',sops:['SOP-01'],alert:{type:'m-info',text:'⚑ Ningún turno se cierra con incidentes relevantes sin responsable y próximo paso definido.'},steps:{color:'sn-b',items:['Durante el turno: observación activa, rondas virtuales, control de alarmas, registro de desvíos.','Sin lenguaje ambiguo, sin canales informales, sin promesas no autorizadas.','Documenta todos los eventos no cerrados: estado, acciones ejecutadas, quién sigue.','Registra estado de plataformas y prioridades para el siguiente turno.','Realiza entrega verbal y documental al relevo.']},records:['Checklist de cierre de turno','Bitácora con pendientes y prioridades','Registro de entrega/recepción de turno']},
-'sin-operador':{emoji:'👤',title:'Operador no llega / ausencia imprevista',sops:['SOP-07','SOP-01'],alert:{type:'m-orange',text:'⚑ Activa continuidad operacional de inmediato. No operes solo más allá de tu capacidad sin avisar.'},steps:{color:'sn-o',items:['Informa al supervisor de inmediato.','Evalúa el alcance: servicios sin cobertura y tiempo estimado.','Prioriza sitios críticos. Define qué monitoreo se mantiene o degrada.','Reasigna cargas a otros operadores o medios alternos si existen.','Avisa al mandante si la cobertura o tiempos de respuesta se ven afectados.','Registra: hora de detección, medidas tomadas, hora de resolución.']},records:['Bitácora de contingencia','Registro de reasignación de cargas','Avisos al mandante']},
-'evidencia':{emoji:'📁',title:'Solicitud de evidencia o informe',sops:['SOP-06'],alert:{type:'m-info',text:'⚑ La calidad del informe depende del registro inicial. Bitácora pobre = informe pobre.'},steps:{color:'sn-b',items:['Identifica qué material se necesita: clip, captura, bitácora, informe.','Respalda el material mínimo útil: ventana previa + evento central + ventana posterior.','Nombra los archivos: [SITIO]_[AAAAMMDD]_[HHMM]_[CAM##]_[descripción breve].','Registra quién solicitó, quién extrajo, desde dónde y para qué propósito.','Envía solo por canales institucionales autorizados.','Mantén comprobante de entrega: fecha, hora, medio y receptor.']},records:['Registro de evidencias','Comprobante de entrega','Informe preliminar y/o final']},
-'incendio':{emoji:'🔥',title:'Incendio',sops:['SOP-09','SOP-06'],alert:{type:'m-danger',text:'⚑ Vida primero. No esperes confirmación visual perfecta para escalar. Bomberos: 132.'},steps:{color:'sn-r',items:['Confirma el evento sin retrasar el escalamiento.','Llama a Bomberos (132) si el protocolo del sitio lo indica.','Avisa al mandante: ubicación exacta, hora, lo que se observa, acciones tomadas.','Apoya la evacuación con medios remotos habilitados si están autorizados.','Registra: hora de detección, aviso al mandante, llamado a Bomberos, evolución.','Respalda evidencia visual mientras sea posible y útil.','Cierra solo cuando el evento fue transferido o finalizado.']},records:['Bitácora de emergencia','Registro de contactos críticos y hora de llamados','Informe preliminar y final']},
-'medica':{emoji:'🚑',title:'Emergencia médica',sops:['SOP-09'],alert:{type:'m-danger',text:'⚑ Llama al SAMU (131) si la situación lo amerita. No demores el escalamiento.'},steps:{color:'sn-r',items:['Confirma la emergencia: persona inconsciente, caída, accidente, malestar grave.','Llama al SAMU (131) o indica al mandante que lo haga.','Avisa al mandante: ubicación exacta, tipo de emergencia, hora.','Apoya con medios remotos habilitados si son útiles y están autorizados.','Registra: hora de detección, aviso, llamado al SAMU, evolución visible.','Cierra cuando la situación fue atendida o transferida formalmente.']},records:['Bitácora de emergencia','Registro de contactos críticos y hora de llamados','Informe si la criticidad lo exige']},
-'evacuacion':{emoji:'🏃',title:'Evacuación o confinamiento',sops:['SOP-09'],alert:{type:'m-danger',text:'⚑ No compitas con el mando del sitio. Tu rol es apoyar, registrar y escalar.'},steps:{color:'sn-r',items:['Confirma con el mandante si hay protocolo de evacuación activo.','Apoya con medios remotos: apertura de accesos de emergencia si está autorizado.','Avisa a autoridades o servicios de emergencia si el protocolo lo indica.','Mantén seguimiento visual. Registra la evolución.','No cierres hasta que el mandante confirme que la situación está controlada.']},records:['Bitácora de emergencia','Registro de acciones remotas ejecutadas','Registro de contactos críticos y hora de llamados']},
-'sop-full-01':{emoji:'📋',title:'KS-SOP-01 · Operación general y entrega de turno',sops:['SOP-01'],alert:{type:'m-info',text:'Este SOP es la base de disciplina operativa.'},steps:{color:'sn-b',items:['INICIO: Revisar plataforma, cámaras críticas, analíticas, audio, intercom y accesos.','INICIO: Leer bitácora del turno anterior. Validar pendientes e incidentes activos.','INICIO: Confirmar lista de autorizados, matriz de contactos, protocolos y formularios.','INICIO: Registrar degradaciones detectadas antes de iniciar formalmente.','DURANTE: Observación activa, rondas virtuales, control de alarmas y registro de desvíos.','DURANTE: Sin lenguaje ambiguo, sin canales informales, sin promesas no autorizadas.','CIERRE: Documentar eventos no cerrados con estado, acciones y responsable del próximo paso.','CIERRE: Entrega verbal y documental al relevo.']},records:['Checklist de inicio y cierre de turno','Bitácora digital','Registro de contingencias activas','Registro de entrega y recepción de turno']},
-'sop-full-02':{emoji:'🚨',title:'KS-SOP-02 · Intrusión y conducta sospechosa',sops:['SOP-02'],alert:{type:'m-danger',text:'No esperes confirmación perfecta si la probabilidad del evento es alta.'},steps:{color:'sn-r',items:['Abrir cámara gatillante + cámara de contexto.','Clasificar: no confirmado / sospechoso / confirmado / crítico / falso positivo.','Descartar causas habituales de falso positivo.','Ejecutar disuasión habilitada según script autorizado.','Notificar al supervisor si el evento es confirmado o crítico.','Contactar al mandante con datos concretos.','Llamar a autoridades si el protocolo lo exige.','Mantener seguimiento visual.','Respaldar clips y capturas.']},records:['Bitácora del evento','Registro de disuasiones','Hora de llamados','Clip o captura','Informe preliminar e informe final']},
-'sop-full-03':{emoji:'⚙️',title:'KS-SOP-03 · Fallas técnicas y degradación del servicio',sops:['SOP-03'],alert:{type:'m-warning',text:'Una caída técnica con contexto sospechoso debe tratarse en paralelo como incidencia técnica y posible evento de seguridad.'},steps:{color:'sn-a',items:['Confirmar si la falla es puntual o generalizada.','Revisar plataforma, estado de red, alarmas de equipo y antecedentes.','Contexto sospechoso → tratar en paralelo con SOP-02.','Informar al supervisor. Clasificar criticidad.','Contactar al mandante cuando la falla afecte cobertura o analíticas críticas.','Derivar a soporte técnico según la matriz del sitio.','Mantener observación reforzada. Registrar mitigación temporal.','Cerrar cuando la continuidad sea restablecida o la responsabilidad transferida.']},records:['Ticket de incidencia','Bitácora técnica','Aviso al mandante','Confirmación de restablecimiento']},
-'sop-full-04':{emoji:'🎙️',title:'KS-SOP-04 · Conserjería virtual: atención y autorización',sops:['SOP-04'],alert:{type:'m-success',text:'Los criterios de autorización deben emanar del mandante, no del operador.'},steps:{color:'sn-g',items:['Responder con script corporativo y confirmar el punto de acceso.','Solicitar y validar datos mínimos: nombre, destino, quien autoriza, empresa, patente.','Contrastar con lista de autorizados o instrucción particular del mandante.','Si no puede validarse → no autorizar ingreso y escalar.','Cuando se autorice → registrar quién autorizó, hora, medio y observaciones.','Mantener trato sobrio y cordial sin entregar información innecesaria.','Ante comportamiento hostil o evasivo → suspender y escalar.']},records:['Registro de interacción o bitácora de acceso','Soporte de autorización','Observaciones de rechazo o conducta anómala']},
-'sop-full-05':{emoji:'🔑',title:'KS-SOP-05 · Control de acceso remoto y aperturas',sops:['SOP-05'],alert:{type:'m-purple',text:'Nunca abrir por costumbre ni por reconocimiento informal, salvo instrucción escrita del mandante.'},steps:{color:'sn-p',items:['Verificar que el acceso correcto está seleccionado y existe validación suficiente.','Confirmar identidad, autorización y sentido de la maniobra antes de abrir.','Ejecutar la apertura solo una vez por instrucción validada.','Si la puerta queda abierta o forzada → incidencia técnica + SOP-02.','Rechazar solicitudes sin respaldo usando script de denegación neutral.','Escalar toda excepción no prevista o presión indebida.']},records:['Registro de apertura o denegación','Motivo de autorización','Identidad validada','Evento de puerta abierta/forzada si existiere']},
-'sop-full-06':{emoji:'📁',title:'KS-SOP-06 · Gestión de evidencias, respaldo e informes',sops:['SOP-06'],alert:{type:'m-info',text:'La calidad del informe depende de la calidad del registro inicial.'},steps:{color:'sn-b',items:['Respaldar el material mínimo útil: ventana previa + evento central + ventana posterior.','Nombrar archivos: [SITIO]_[AAAAMMDD]_[HHMM]_[CAM##]_[descripción breve].','Registrar quién extrajo el material, desde dónde y para qué propósito.','Confeccionar informe preliminar y, si corresponde, informe final consolidado.','No compartir clips o datos por canales no autorizados.','Mantener trazabilidad de entrega: fecha, hora, medio y receptor.']},records:['Registro de evidencias','Informe preliminar','Informe final','Bitácora del evento','Comprobante de entrega']},
-'sop-full-07':{emoji:'🔄',title:'KS-SOP-07 · Continuidad operacional y contingencia',sops:['SOP-07'],alert:{type:'m-orange',text:'No ocultar indisponibilidad temporal cuando ésta afecte el estándar comprometido.'},steps:{color:'sn-o',items:['Evaluar el alcance de la contingencia: individual / parcial / total.','Priorizar sitios y funciones críticas.','Reasignar cargas a otros operadores o medios alternos cuando existan.','Informar al mandante si la contingencia afecta materialmente la cobertura.','Registrar hora de inicio, medidas de mitigación y hora de recuperación.','Cerrar con análisis breve de causa, impacto y acción correctiva.']},records:['Bitácora de contingencia','Registro de reasignación de cargas','Avisos al mandante','Cierre con causa + impacto + aprendizaje']},
-'sop-full-08':{emoji:'🔐',title:'KS-SOP-08 · Confidencialidad, privacidad y ciberseguridad',sops:['SOP-08'],alert:{type:'m-success',text:'La reserva se mantiene incluso después del término de la relación laboral o contractual.'},steps:{color:'sn-g',items:['Usar solo credenciales personales o autorizadas. Prohibido compartir usuarios y contraseñas.','No capturar imágenes con teléfonos personales ni dispositivos no autorizados.','Enviar información solo por canales institucionales aprobados.','Bloquear sesión o puesto al ausentarse. Cerrar accesos que no estén en uso.','Reportar inmediatamente accesos indebidos o extravío de credenciales.','Principio de mínima necesidad: ver, descargar y enviar solo lo estrictamente necesario.']},records:['Registro de accesos o logs','Acta de incidente de seguridad de la información','Alta, cambio y baja de usuarios']},
-'sop-full-09':{emoji:'🚨',title:'KS-SOP-09 · Emergencias y escalamiento extraordinario',sops:['SOP-09'],alert:{type:'m-danger',text:'Priorizar vida e integridad por sobre formalismos cuando exista incertidumbre crítica.'},steps:{color:'sn-r',items:['Confirmar el evento sin retrasar irracionalmente el escalamiento.','Aplicar mensaje claro al mandante: hecho observado, ubicación, hora, acciones ejecutadas.','Contactar servicios de emergencia cuando corresponda al protocolo o gravedad.','Usar medios remotos habilitados solo si son útiles y autorizados.','Mantener trazabilidad: hora de detección, aviso al mandante, llamado externo, evolución.','Cerrar solo cuando el evento haya sido transferido, contenido o finalizado.']},records:['Bitácora de emergencia','Registro de contactos críticos y hora de llamados','Informe preliminar y final']}
+const MD={
+'intrusion':{e:'🚨',t:'Intrusión o conducta sospechosa',s:['SOP-02','SOP-06'],a:{c:'m-danger',x:'⚑ No esperes confirmación perfecta si la probabilidad es alta. Toda acción remota debe ser proporcional y trazable.'},p:{cl:'sn-r',i:['Abrir cámara gatillante + al menos una cámara de contexto.','Clasificar: no confirmado / sospechoso / confirmado / crítico / falso positivo.','Descartar causas habituales: fauna, clima, reflejos, personal autorizado.','Ejecutar disuasión habilitada (voceo, sirena o baliza) según script autorizado.','Notificar al supervisor si el evento es confirmado, persistente o crítico.','Contactar al mandante: lugar, hora, personas, conducta, acciones ejecutadas.','Llamar a autoridades si el protocolo del sitio lo exige.','Mantener seguimiento visual. Registrar cambios relevantes.','Respaldar clips y capturas. Cerrar cuando la amenaza cesó o fue transferida.']},r:['Bitácora del evento','Registro de disuasiones activadas','Hora de llamados','Clip o captura relevante','Informe preliminar e informe final']},
+'violencia':{e:'⚠️',t:'Violencia, amenaza o paquete sospechoso',s:['SOP-09','SOP-02'],a:{c:'m-danger',x:'⚑ Vida e integridad primero. No compitas con el mando del sitio ni con autoridades externas.'},p:{cl:'sn-r',i:['Confirma el evento sin retrasar irracionalmente el escalamiento.','Avisa al mandante: hecho observado, ubicación, hora, acciones ya ejecutadas.','Llama a Carabineros / PDI si la situación lo amerita.','Para paquete sospechoso: NO manipular. Llamar a GOPE. Alejar personas.','Usa medios remotos habilitados solo si son útiles y autorizados.','Registra: detección, aviso al mandante, llamado externo, evolución visible.','Cierra cuando el evento fue transferido, contenido o finalizado.']},r:['Bitácora de emergencia','Registro de contactos críticos y hora de llamados','Informe preliminar y final']},
+'acceso':{e:'🚪',t:'Solicitud de acceso o ingreso',s:['SOP-04','SOP-05'],a:{c:'m-success',x:'⚑ Sin validación no hay apertura. Los criterios los define el mandante, no el operador.'},p:{cl:'sn-g',i:['Responde con script corporativo. Confirma el punto de acceso.','Solicita datos mínimos: nombre, destino, residente que autoriza, empresa, patente.','Contrasta con lista de autorizados, agenda o instrucción vigente del mandante.','No puedes validar → No autorices. Escala según la matriz del sitio.','Si autorizas → confirma identidad antes de abrir.','Ejecuta la apertura una sola vez. Verifica que la puerta retornó a estado normal.','Registra: quién autorizó, hora, medio y observaciones.']},r:['Bitácora de acceso','Soporte de autorización','Registro de apertura con identidad validada']},
+'puerta-forzada':{e:'🔓',t:'Puerta abierta, forzada o sin retorno',s:['SOP-05','SOP-03','SOP-02'],a:{c:'m-warning',x:'⚑ Puerta forzada = incidencia técnica + posible evento de seguridad. Activa ambos en paralelo.'},p:{cl:'sn-a',i:['Registra de inmediato: hora, acceso afectado, estado observado.','Activa SOP-03 + SOP-02 en paralelo.','Avisa al supervisor y al mandante.','Verifica por video si hay contexto sospechoso asociado.','Deriva a soporte técnico para corrección física.','No cierres hasta que la puerta retorne a estado normal.']},r:['Registro de puerta abierta/forzada','Bitácora técnica y de seguridad','Aviso al mandante y soporte técnico']},
+'ciber':{e:'🔐',t:'Incidente de seguridad de la información',s:['SOP-08'],a:{c:'m-info',x:'⚑ Reporta de inmediato. No esperes confirmar el alcance total para avisar al supervisor.'},p:{cl:'sn-b',i:['Detectas acceso indebido o fuga → para el uso del canal o credencial afectada.','Reporta inmediatamente al supervisor. No lo manejes solo.','Registra: qué ocurrió, hora, qué información pudo verse afectada.','El supervisor escala y activa alta/baja de usuarios si corresponde.','No compartas información sobre el incidente por canales no autorizados.']},r:['Acta de incidente de seguridad','Alta, cambio o baja del usuario afectado','Registro de accesos o logs']},
+'camara-caida':{e:'📷',t:'Cámara(s) sin imagen o caída',s:['SOP-03'],a:{c:'m-warning',x:'⚑ Caída técnica con contexto sospechoso: activa SOP-02 en paralelo.'},p:{cl:'sn-a',i:['Confirma si la falla es puntual o generalizada.','Revisa plataforma, estado de red, alarmas de equipo y antecedentes del turno anterior.','¿Contexto sospechoso? → activa SOP-02.','Informa al supervisor. Clasifica criticidad: baja / media / alta / crítica.','Avisa al mandante si afecta cobertura o analíticas críticas.','Deriva a soporte técnico según la matriz del sitio.','Refuerza observación con cámaras disponibles. Registra mitigación temporal.','Cierra cuando se restableció la continuidad o la responsabilidad fue transferida.']},r:['Ticket de incidencia','Bitácora técnica','Aviso al mandante','Confirmación de restablecimiento']},
+'red-caida':{e:'🌐',t:'Caída de red o internet',s:['SOP-03','SOP-07'],a:{c:'m-warning',x:'⚑ Si afecta materialmente la cobertura, avisa al mandante y activa continuidad operacional (SOP-07).'},p:{cl:'sn-a',i:['Confirma si la caída es parcial o total.','Verifica antecedentes del turno anterior y estado de otras plataformas.','Informa al supervisor. Clasifica criticidad.','Activa SOP-07 si la falla compromete la capacidad operativa.','Contacta al mandante si afecta cobertura o tiempos de respuesta.','Deriva a soporte técnico o proveedor de red.','Documenta mitigación temporal aplicada.']},r:['Ticket de incidencia','Bitácora técnica y de contingencia','Avisos al mandante','Confirmación de restablecimiento']},
+'audio-falla':{e:'🔇',t:'Falla de audio o intercom',s:['SOP-03'],a:{c:'m-warning',x:'⚑ Sin audio/intercom operativo, la conserjería virtual queda limitada.'},p:{cl:'sn-a',i:['Confirma que la falla es de audio/intercom y no de conectividad general.','Informa al supervisor. Clasifica criticidad.','Avisa al mandante si afecta la atención de accesos.','Deriva a soporte técnico según la matriz del sitio.','Documenta la mitigación temporal.','Cierra cuando el servicio sea restablecido o la responsabilidad transferida.']},r:['Ticket de incidencia','Bitácora técnica','Aviso al mandante']},
+'falla-apertura':{e:'⚙️',t:'Falla en sistema de apertura remota',s:['SOP-03','SOP-05'],a:{c:'m-warning',x:'⚑ Si la puerta quedó forzada o abierta, activa también SOP-02.'},p:{cl:'sn-a',i:['Confirma el estado de la puerta: cerrada / abierta / forzada.','Si está abierta o forzada → activa SOP-05 + SOP-02 de inmediato.','Informa al supervisor. Avisa al mandante.','Deriva a soporte técnico para corrección de hardware/software.','No ejecutes aperturas sin respaldo de validación durante falla activa.','Registra la falla con hora de inicio y estado observado.']},r:['Ticket de incidencia técnica','Registro de estado de la puerta','Aviso al mandante','Confirmación de restablecimiento']},
+'plataforma-caida':{e:'💻',t:'Plataforma o software caído',s:['SOP-03','SOP-07'],a:{c:'m-orange',x:'⚑ Falla masiva activa continuidad operacional (SOP-07). No ocultes la indisponibilidad.'},p:{cl:'sn-a',i:['Confirma si la caída es local, de servidor o del servicio en la nube.','Informa al supervisor de inmediato.','Activa SOP-07: evalúa alcance, prioriza sitios críticos.','Avisa al mandante si la cobertura o capacidad de respuesta se ve afectada.','Deriva a soporte TI para recuperación técnica.','Registra: hora de inicio, medidas tomadas, hora de recuperación.']},r:['Bitácora de contingencia','Ticket de incidencia técnica','Avisos al mandante','Cierre con causa, impacto y aprendizaje']},
+'inicio-turno':{e:'▶️',t:'Inicio de turno',s:['SOP-01'],a:{c:'m-info',x:'⚑ Si no revisas bien al inicio, el turno entero opera con información incompleta.'},p:{cl:'sn-b',i:['Revisar plataforma: conectividad, cámaras críticas, analíticas, audio, intercom y accesos.','Leer la bitácora del turno anterior completa. Validar pendientes e incidentes en curso.','Confirmar disponibilidad de: lista de autorizados, matriz de contactos, protocolos del sitio.','Registrar degradaciones detectadas antes de iniciar formalmente.']},r:['Checklist de inicio de turno','Bitácora digital actualizada','Registro de degradaciones al inicio']},
+'cierre-turno':{e:'⏹️',t:'Cierre y entrega de turno',s:['SOP-01'],a:{c:'m-info',x:'⚑ Ningún turno se cierra con incidentes relevantes sin responsable y próximo paso definido.'},p:{cl:'sn-b',i:['Durante el turno: observación activa, rondas virtuales, control de alarmas, registro de desvíos.','Sin lenguaje ambiguo, sin canales informales, sin promesas no autorizadas.','Documenta todos los eventos no cerrados: estado, acciones ejecutadas, quién sigue.','Registra estado de plataformas y prioridades para el siguiente turno.','Realiza entrega verbal y documental al relevo.']},r:['Checklist de cierre de turno','Bitácora con pendientes y prioridades','Registro de entrega/recepción de turno']},
+'sin-operador':{e:'👤',t:'Operador no llega / ausencia imprevista',s:['SOP-07','SOP-01'],a:{c:'m-orange',x:'⚑ Activa continuidad operacional de inmediato. No operes solo más allá de tu capacidad sin avisar.'},p:{cl:'sn-o',i:['Informa al supervisor de inmediato.','Evalúa el alcance: servicios sin cobertura y tiempo estimado.','Prioriza sitios críticos. Define qué monitoreo se mantiene o degrada.','Reasigna cargas a otros operadores o medios alternos si existen.','Avisa al mandante si la cobertura o tiempos de respuesta se ven afectados.','Registra: hora de detección, medidas tomadas, hora de resolución.']},r:['Bitácora de contingencia','Registro de reasignación de cargas','Avisos al mandante']},
+'evidencia':{e:'📁',t:'Solicitud de evidencia o informe',s:['SOP-06'],a:{c:'m-info',x:'⚑ La calidad del informe depende del registro inicial. Bitácora pobre = informe pobre.'},p:{cl:'sn-b',i:['Identifica qué material se necesita: clip, captura, bitácora, informe.','Respalda el material mínimo útil: ventana previa + evento central + ventana posterior.','Nombra los archivos: [SITIO]_[AAAAMMDD]_[HHMM]_[CAM##]_[descripción breve].','Registra quién solicitó, quién extrajo, desde dónde y para qué propósito.','Envía solo por canales institucionales autorizados.','Mantén comprobante de entrega: fecha, hora, medio y receptor.']},r:['Registro de evidencias','Comprobante de entrega','Informe preliminar y/o final']},
+'incendio':{e:'🔥',t:'Incendio',s:['SOP-09','SOP-06'],a:{c:'m-danger',x:'⚑ Vida primero. No esperes confirmación visual perfecta para escalar. Bomberos: 132.'},p:{cl:'sn-r',i:['Confirma el evento sin retrasar el escalamiento.','Llama a Bomberos (132) si el protocolo del sitio lo indica o la gravedad lo amerita.','Avisa al mandante: ubicación exacta, hora, lo que se observa, acciones tomadas.','Apoya la evacuación con medios remotos habilitados si están autorizados.','Registra: hora de detección, aviso al mandante, llamado a Bomberos, evolución.','Respalda evidencia visual mientras sea posible y útil.','Cierra cuando el evento fue transferido o finalizado.']},r:['Bitácora de emergencia','Registro de contactos críticos y hora de llamados','Informe preliminar y final']},
+'medica':{e:'🚑',t:'Emergencia médica',s:['SOP-09'],a:{c:'m-danger',x:'⚑ Llama al SAMU (131) si la situación lo amerita. No demores el escalamiento.'},p:{cl:'sn-r',i:['Confirma la emergencia: persona inconsciente, caída, accidente, malestar grave.','Llama al SAMU (131) o indica al mandante que lo haga.','Avisa al mandante: ubicación exacta, tipo de emergencia, hora.','Apoya con medios remotos habilitados si son útiles y están autorizados.','Registra: hora de detección, aviso, llamado al SAMU, evolución visible.','Cierra cuando la situación fue atendida o transferida formalmente.']},r:['Bitácora de emergencia','Registro de contactos críticos y hora de llamados','Informe si la criticidad lo exige']},
+'evacuacion':{e:'🏃',t:'Evacuación o confinamiento',s:['SOP-09'],a:{c:'m-danger',x:'⚑ No compitas con el mando del sitio. Tu rol es apoyar, registrar y escalar.'},p:{cl:'sn-r',i:['Confirma con el mandante si hay protocolo de evacuación activo.','Apoya con medios remotos: apertura de accesos de emergencia si está autorizado.','Avisa a autoridades o servicios de emergencia si el protocolo lo indica.','Mantén seguimiento visual. Registra la evolución.','No cierres hasta que el mandante confirme que la situación está controlada.']},r:['Bitácora de emergencia','Registro de acciones remotas ejecutadas','Registro de contactos críticos y hora de llamados']},
+'sop-full-01':{e:'📋',t:'KS-SOP-01 · Operación general y entrega de turno',s:['SOP-01'],a:{c:'m-info',x:'Este SOP es la base de disciplina operativa. Si se ejecuta mal, el resto de los protocolos se degrada.'},p:{cl:'sn-b',i:['INICIO: Revisar plataforma, cámaras críticas, analíticas, audio, intercom y accesos.','INICIO: Leer bitácora del turno anterior. Validar pendientes e incidentes activos.','INICIO: Confirmar lista de autorizados, matriz de contactos, protocolos y formularios.','INICIO: Registrar degradaciones detectadas antes de iniciar formalmente.','DURANTE: Observación activa, rondas virtuales, control de alarmas y registro de desvíos.','DURANTE: Sin lenguaje ambiguo, sin canales informales, sin promesas no autorizadas.','CIERRE: Documentar eventos no cerrados con estado, acciones y responsable del próximo paso.','CIERRE: Entrega verbal y documental al relevo.']},r:['Checklist de inicio y cierre de turno','Bitácora digital','Registro de contingencias activas','Registro de entrega y recepción de turno']},
+'sop-full-02':{e:'🚨',t:'KS-SOP-02 · Intrusión y conducta sospechosa',s:['SOP-02'],a:{c:'m-danger',x:'No esperes confirmación perfecta si la probabilidad del evento es alta.'},p:{cl:'sn-r',i:['Abrir cámara gatillante + cámara de contexto.','Clasificar: no confirmado / sospechoso / confirmado / crítico / falso positivo.','Descartar causas habituales de falso positivo.','Ejecutar disuasión habilitada según script autorizado.','Notificar al supervisor si el evento es confirmado o crítico.','Contactar al mandante con datos concretos.','Llamar a autoridades si el protocolo lo exige.','Mantener seguimiento visual.','Respaldar clips y capturas.']},r:['Bitácora del evento','Registro de disuasiones','Hora de llamados','Clip o captura','Informe preliminar e informe final']},
+'sop-full-03':{e:'⚙️',t:'KS-SOP-03 · Fallas técnicas y degradación del servicio',s:['SOP-03'],a:{c:'m-warning',x:'Una caída técnica con contexto sospechoso debe tratarse en paralelo como incidencia técnica y posible evento de seguridad.'},p:{cl:'sn-a',i:['Confirmar si la falla es puntual o generalizada.','Revisar plataforma, estado de red, alarmas de equipo y antecedentes.','Contexto sospechoso → tratar en paralelo con SOP-02.','Informar al supervisor. Clasificar criticidad.','Contactar al mandante cuando la falla afecte cobertura o analíticas críticas.','Derivar a soporte técnico según la matriz del sitio.','Mantener observación reforzada. Registrar mitigación temporal.','Cerrar cuando la continuidad sea restablecida o la responsabilidad transferida.']},r:['Ticket de incidencia','Bitácora técnica','Aviso al mandante','Confirmación de restablecimiento']},
+'sop-full-04':{e:'🎙️',t:'KS-SOP-04 · Conserjería virtual: atención y autorización',s:['SOP-04'],a:{c:'m-success',x:'Los criterios de autorización deben emanar del mandante, no del operador.'},p:{cl:'sn-g',i:['Responder con script corporativo y confirmar el punto de acceso.','Solicitar y validar datos mínimos: nombre, destino, quien autoriza, empresa, patente.','Contrastar con lista de autorizados o instrucción particular del mandante.','Si no puede validarse → no autorizar ingreso y escalar.','Cuando se autorice → registrar quién autorizó, hora, medio y observaciones.','Mantener trato sobrio y cordial sin entregar información innecesaria.','Ante comportamiento hostil o evasivo → suspender y escalar.']},r:['Registro de interacción o bitácora de acceso','Soporte de autorización','Observaciones de rechazo o conducta anómala']},
+'sop-full-05':{e:'🔑',t:'KS-SOP-05 · Control de acceso remoto y aperturas',s:['SOP-05'],a:{c:'m-purple',x:'Nunca abrir por costumbre ni por reconocimiento informal, salvo instrucción escrita del mandante.'},p:{cl:'sn-p',i:['Verificar que el acceso correcto está seleccionado y existe validación suficiente.','Confirmar identidad, autorización y sentido de la maniobra antes de abrir.','Ejecutar la apertura solo una vez por instrucción validada.','Si la puerta queda abierta o forzada → incidencia técnica + SOP-02.','Rechazar solicitudes sin respaldo usando script de denegación neutral.','Escalar toda excepción no prevista o presión indebida.']},r:['Registro de apertura o denegación','Motivo de autorización','Identidad validada','Evento de puerta abierta/forzada si existiere']},
+'sop-full-06':{e:'📁',t:'KS-SOP-06 · Gestión de evidencias, respaldo e informes',s:['SOP-06'],a:{c:'m-info',x:'La calidad del informe depende de la calidad del registro inicial.'},p:{cl:'sn-b',i:['Respaldar el material mínimo útil: ventana previa + evento central + ventana posterior.','Nombrar archivos: [SITIO]_[AAAAMMDD]_[HHMM]_[CAM##]_[descripción breve].','Registrar quién extrajo el material, desde dónde y para qué propósito.','Confeccionar informe preliminar y, si corresponde, informe final consolidado.','No compartir clips o datos por canales no autorizados.','Mantener trazabilidad de entrega: fecha, hora, medio y receptor.']},r:['Registro de evidencias','Informe preliminar','Informe final','Bitácora del evento','Comprobante de entrega']},
+'sop-full-07':{e:'🔄',t:'KS-SOP-07 · Continuidad operacional y contingencia',s:['SOP-07'],a:{c:'m-orange',x:'No ocultar indisponibilidad temporal cuando ésta afecte el estándar comprometido.'},p:{cl:'sn-o',i:['Evaluar el alcance de la contingencia: individual / parcial / total.','Priorizar sitios y funciones críticas.','Reasignar cargas a otros operadores o medios alternos cuando existan.','Informar al mandante si la contingencia afecta materialmente la cobertura.','Registrar hora de inicio, medidas de mitigación y hora de recuperación.','Cerrar con análisis breve de causa, impacto y acción correctiva.']},r:['Bitácora de contingencia','Registro de reasignación de cargas','Avisos al mandante','Cierre con causa + impacto + aprendizaje']},
+'sop-full-08':{e:'🔐',t:'KS-SOP-08 · Confidencialidad, privacidad y ciberseguridad',s:['SOP-08'],a:{c:'m-success',x:'La reserva se mantiene incluso después del término de la relación laboral o contractual.'},p:{cl:'sn-g',i:['Usar solo credenciales personales o autorizadas. Prohibido compartir usuarios y contraseñas.','No capturar imágenes con teléfonos personales ni dispositivos no autorizados.','Enviar información solo por canales institucionales aprobados.','Bloquear sesión o puesto al ausentarse. Cerrar accesos que no estén en uso.','Reportar inmediatamente accesos indebidos o extravío de credenciales.','Principio de mínima necesidad: ver, descargar y enviar solo lo estrictamente necesario.']},r:['Registro de accesos o logs','Acta de incidente de seguridad de la información','Alta, cambio y baja de usuarios']},
+'sop-full-09':{e:'🚨',t:'KS-SOP-09 · Emergencias y escalamiento extraordinario',s:['SOP-09'],a:{c:'m-danger',x:'Priorizar vida e integridad por sobre formalismos cuando exista incertidumbre crítica.'},p:{cl:'sn-r',i:['Confirmar el evento sin retrasar irracionalmente el escalamiento.','Aplicar mensaje claro al mandante: hecho observado, ubicación, hora, acciones ejecutadas.','Contactar servicios de emergencia cuando corresponda al protocolo o gravedad.','Usar medios remotos habilitados solo si son útiles y autorizados.','Mantener trazabilidad: hora de detección, aviso al mandante, llamado externo, evolución.','Cerrar solo cuando el evento haya sido transferido, contenido o finalizado.']},r:['Bitácora de emergencia','Registro de contactos críticos y hora de llamados','Informe preliminar y final']}
 };
 
-const TM={'SOP-01':'tag-01','SOP-02':'tag-02','SOP-03':'tag-03','SOP-04':'tag-04','SOP-05':'tag-05','SOP-06':'tag-06','SOP-07':'tag-07','SOP-08':'tag-08','SOP-09':'tag-09'};
+const TM={'SOP-01':'t01','SOP-02':'t02','SOP-03':'t03','SOP-04':'t04','SOP-05':'t05','SOP-06':'t06','SOP-07':'t07','SOP-08':'t08','SOP-09':'t09'};
 
-function openModal(key){
-  const d=MODALS[key]; if(!d) return;
-  const st=d.sops.map(s=>`<span class="sop-tag ${TM[s]||''}">${s}</span>`).join('');
-  const sp=d.steps.items.map((s,i)=>`<li><span class="sn ${d.steps.color}">${i+1}</span>${s}</li>`).join('');
-  const rc=d.records.map(r=>`<li>${r}</li>`).join('');
-  document.getElementById('modal-content').innerHTML=`
-    <div class="modal-header">
-      <div class="modal-header-left">
-        <div class="modal-icon-wrap">${d.emoji}</div>
-        <div><div class="modal-title">${d.title}</div><div class="modal-subtitle">${st}</div></div>
+function openM(k){
+  const d=MD[k]; if(!d) return;
+  const st=d.s.map(s=>`<span class="stag ${TM[s]||''}">${s}</span>`).join('');
+  const sp=d.p.i.map((s,i)=>`<li><span class="sn ${d.p.cl}">${i+1}</span>${s}</li>`).join('');
+  const rc=d.r.map(r=>`<li>${r}</li>`).join('');
+  document.getElementById('mcont').innerHTML=`
+    <div class="mhdr">
+      <div class="mhdr-l">
+        <div class="mico">${d.e}</div>
+        <div><div class="mtitle">${d.t}</div><div class="msub">${st}</div></div>
       </div>
-      <button class="modal-close" onclick="closeModal()">
+      <button class="mclose" onclick="closeM()">
         <svg viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         Cerrar
       </button>
     </div>
-    <div class="modal-body">
-      <div class="modal-alert ${d.alert.type}">${d.alert.text}</div>
-      <div class="modal-section"><div class="modal-section-title">Protocolo de respuesta</div><ul class="step-list">${sp}</ul></div>
-      <div class="modal-section"><div class="modal-section-title">Registros obligatorios</div><ul class="rec-list">${rc}</ul></div>
+    <div class="mbody">
+      <div class="malert ${d.a.c}">${d.a.x}</div>
+      <div class="msect"><div class="msect-t">Protocolo de respuesta</div><ul class="slist">${sp}</ul></div>
+      <div class="msect"><div class="msect-t">Registros obligatorios</div><ul class="rlist">${rc}</ul></div>
     </div>`;
-  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('mover').classList.add('open');
 }
-function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
-function closeModalOutside(e){if(e.target.id==='modal-overlay')closeModal();}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+function closeM(e){if(!e||e.target.id==='mover') document.getElementById('mover').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape') document.getElementById('mover').classList.remove('open');});
 
 function setView(v,btn){
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
-  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const sb=document.getElementById('search-bar');
-  if(sb) sb.style.display=(v==='situaciones')?'':'none';
+  const sb=document.getElementById('sbar');
+  if(sb) sb.style.display=(v==='sit')?'flex':'none';
 }
 
-function filterRows(){
-  const q=document.getElementById('search-input').value.toLowerCase().trim();
-  document.getElementById('search-clear').style.display=q?'flex':'none';
-  const rows=document.querySelectorAll('.sit-row');
+function filt(){
+  const q=document.getElementById('sin').value.toLowerCase().trim();
+  document.getElementById('scl').style.display=q?'flex':'none';
   let any=false;
-  rows.forEach(row=>{
-    const kw=(row.getAttribute('data-keywords')||'')+' '+row.querySelector('.sit-name').textContent.toLowerCase();
+  document.querySelectorAll('.card').forEach(c=>{
+    const kw=(c.getAttribute('data-k')||'')+' '+c.querySelector('.cname').textContent.toLowerCase();
     const m=!q||kw.includes(q);
-    row.classList.toggle('hidden',!m);
+    c.classList.toggle('hidden',!m);
     if(m) any=true;
   });
-  ['seguridad','tecnico','turno','emergencia'].forEach(cat=>{
-    const col=document.getElementById('col-'+cat);
-    const cnt=document.getElementById('cnt-'+cat);
-    const vis=col?col.querySelectorAll('.sit-row:not(.hidden)').length:0;
-    if(col) col.style.display=vis>0?'':'none';
-    if(cnt) cnt.textContent=vis;
+  const grps=[['seg','ci-seg','cnt-seg'],['tec','ci-tec','cnt-tec'],['tur','ci-tur','cnt-tur'],['eme','ci-eme','cnt-eme']];
+  grps.forEach(([g,ci,cnt])=>{
+    const el=document.getElementById(ci);
+    const ce=el?el.closest('.col'):null;
+    const vis=el?el.querySelectorAll('.card:not(.hidden)').length:0;
+    if(ce) ce.style.display=vis>0?'':'none';
+    const c=document.getElementById(cnt);
+    if(c) c.textContent=vis;
   });
-  const nr=document.getElementById('no-results');
-  if(nr){nr.style.display=any?'none':'flex';}
+  const nr=document.getElementById('no-res');
+  if(nr) nr.style.display=any?'none':'flex';
 }
-function clearSearch(){
-  document.getElementById('search-input').value='';
-  document.getElementById('search-clear').style.display='none';
-  filterRows();
+function clearS(){
+  document.getElementById('sin').value='';
+  document.getElementById('scl').style.display='none';
+  filt();
 }
 function toggleFS(){
-  const btn=document.getElementById('fs-btn');
+  const b=document.getElementById('fsb');
   if(!document.fullscreenElement){
     document.documentElement.requestFullscreen().catch(()=>{});
-    btn.innerHTML='<svg viewBox="0 0 16 16" fill="none"><path d="M5 1H2v3M14 1h-3v3M5 15H2v-3M14 15h-3v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Salir</span>';
+    b.innerHTML='<svg viewBox="0 0 16 16" fill="none"><path d="M5 1H2v3M14 1h-3v3M5 15H2v-3M14 15h-3v-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Salir</span>';
   } else { document.exitFullscreen(); }
 }
 document.addEventListener('fullscreenchange',()=>{
-  const btn=document.getElementById('fs-btn');
+  const b=document.getElementById('fsb');
   if(!document.fullscreenElement)
-    btn.innerHTML='<svg viewBox="0 0 16 16" fill="none"><path d="M1 6V2h4M15 6V2h-4M1 10v4h4M15 10v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Pantalla completa</span>';
+    b.innerHTML='<svg viewBox="0 0 16 16" fill="none"><path d="M1 6V2h4M15 6V2h-4M1 10v4h4M15 10v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Pantalla completa</span>';
 });
-</script>
-</body>
-</html>
+</script></body></html>
